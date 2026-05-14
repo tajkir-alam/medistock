@@ -13,11 +13,13 @@ import java.time.LocalDateTime;
                 @UniqueConstraint(name = "uk_users_email", columnNames = "email")
         }
 )
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class User {
 
     public enum Role {

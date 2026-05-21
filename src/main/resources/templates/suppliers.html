@@ -1,10 +1,487 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html class="light" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="utf-8"/>
+    <title>Medistock Suppliers</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+          rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+          rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-low": "#f3f4f5",
+                      "inverse-surface": "#2e3132",
+                      "on-primary-fixed": "#001a40",
+                      "on-background": "#191c1d",
+                      "outline-variant": "#c2c6d4",
+                      "primary": "#003f87",
+                      "on-secondary": "#ffffff",
+                      "surface": "#f8f9fa",
+                      "on-secondary-fixed-variant": "#00513a",
+                      "on-primary-fixed-variant": "#004491",
+                      "secondary": "#006c4f",
+                      "inverse-on-surface": "#f0f1f2",
+                      "on-error": "#ffffff",
+                      "on-tertiary-fixed-variant": "#3f484f",
+                      "secondary-fixed": "#67fcc6",
+                      "on-surface-variant": "#424752",
+                      "surface-bright": "#f8f9fa",
+                      "surface-tint": "#115cb9",
+                      "surface-dim": "#d9dadb",
+                      "primary-fixed": "#d7e2ff",
+                      "on-tertiary": "#ffffff",
+                      "error": "#ba1a1a",
+                      "on-secondary-container": "#007354",
+                      "surface-container-highest": "#e1e3e4",
+                      "on-surface": "#191c1d",
+                      "primary-fixed-dim": "#acc7ff",
+                      "surface-variant": "#e1e3e4",
+                      "on-primary": "#ffffff",
+                      "primary-container": "#0056b3",
+                      "tertiary-fixed-dim": "#bfc8d0",
+                      "outline": "#727784",
+                      "tertiary-fixed": "#dbe4ed",
+                      "secondary-container": "#67fcc6",
+                      "on-primary-container": "#bbd0ff",
+                      "error-container": "#ffdad6",
+                      "surface-container-high": "#e7e8e9",
+                      "surface-container-lowest": "#ffffff",
+                      "background": "#f8f9fa",
+                      "inverse-primary": "#acc7ff",
+                      "on-tertiary-fixed": "#141d23",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed-dim": "#44dfab",
+                      "on-tertiary-container": "#c8d1da",
+                      "on-secondary-fixed": "#002116",
+                      "tertiary-container": "#515a62",
+                      "tertiary": "#3a434a",
+                      "surface-container": "#edeeef"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "32px",
+                      "xl": "64px",
+                      "xs": "4px",
+                      "sm": "12px",
+                      "gutter": "16px",
+                      "margin-mobile": "16px",
+                      "md": "24px",
+                      "lg": "48px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "label-md": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "headline-sm": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "body-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .card-accent-preferred { border-left: 4px solid #003f87; }
+        .card-accent-active { border-left: 4px solid #006c4f; }
+        .card-accent-hold { border-left: 4px solid #ba1a1a; }
+        .soft-shadow { box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); }
+    </style>
 </head>
-<body>
-$END$
+<body class="text-on-surface">
+<!-- Side Navigation Bar -->
+<aside class="h-screen w-64 fixed left-0 top-0 z-50 bg-surface-container-lowest border-r border-outline-variant flex flex-col p-4 gap-y-base shadow-md">
+    <div class="mb-lg">
+        <h1 class="text-headline-sm font-headline-sm font-bold text-primary">MediStock Pro</h1>
+        <p class="text-body-sm font-body-sm text-on-surface-variant">Central Pharmacy</p>
+    </div>
+    <nav class="flex-grow space-y-1">
+        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="/dashboard">
+            <span class="material-symbols-outlined mr-3">dashboard</span>
+            <span class="font-label-md text-label-md">Dashboard</span>
+        </a>
+        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="/inventory">
+            <span class="material-symbols-outlined mr-3">inventory_2</span>
+            <span class="font-label-md text-label-md">Inventory</span>
+        </a>
+        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="/orders">
+            <span class="material-symbols-outlined mr-3">receipt_long</span>
+            <span class="font-label-md text-label-md">Orders</span>
+        </a>
+        <a class="bg-primary-container text-on-primary-container font-semibold rounded-lg flex items-center px-4 py-3 scale-95 transition-transform"
+           href="/suppliers">
+            <span class="material-symbols-outlined mr-3">local_shipping</span>
+            <span class="font-label-md text-label-md">Suppliers</span>
+        </a>
+        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="/analytics">
+            <span class="material-symbols-outlined mr-3">analytics</span>
+            <span class="font-label-md text-label-md">Analytics</span>
+        </a>
+    </nav>
+    <div class="mt-auto border-t border-outline-variant pt-4 flex flex-col gap-y-xs">
+        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="#">
+            <span class="material-symbols-outlined mr-sm" data-icon="settings">settings</span>
+            <span class="text-label-md font-label-md">Settings</span>
+        </a>
+        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="#">
+            <span class="material-symbols-outlined mr-sm" data-icon="help">help</span>
+            <span class="text-label-md font-label-md">Support</span>
+        </a>
+    </div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+    <!-- Top App Bar -->
+    <header class="flex justify-between items-center w-full px-margin-desktop h-16 sticky top-0 z-40 bg-surface border-b border-outline-variant shadow-sm">
+        <div class="flex items-center flex-1 max-w-xl">
+            <div class="relative w-full">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                <input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-body-sm focus:ring-2 focus:ring-primary"
+                       placeholder="Global search for medicines, batch IDs, or suppliers..." type="text"/>
+            </div>
+        </div>
+        <div class="flex items-center gap-x-md ml-md">
+            <button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors"
+                    data-icon="notifications">notifications
+            </button>
+            <button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors"
+                    data-icon="account_circle">account_circle
+            </button>
+        </div>
+    </header>
+    <!-- Page Canvas -->
+    <div class="p-margin-desktop">
+        <!-- Header Section -->
+        <section class="flex justify-between items-end mb-lg">
+            <div>
+                <h2 class="text-headline-lg font-headline-lg text-on-surface">Suppliers</h2>
+                <p class="text-body-md font-body-md text-on-surface-variant">Manage medical logistics and procurement
+                    partnerships.</p>
+            </div>
+            <a href="/add-supplier" class="bg-primary text-on-primary px-6 py-3 rounded-lg font-label-md text-label-md flex items-center gap-x-sm hover:opacity-90 active:scale-95 transition-all shadow-sm">
+                <span class="material-symbols-outlined" data-icon="person_add">person_add</span>
+                Register New Supplier
+            </a>
+        </section>
+        <!-- Search & Filter Bar -->
+        <section
+                class="bg-surface-container-lowest p-md rounded-xl soft-shadow mb-md flex flex-wrap items-center gap-md border border-outline-variant">
+            <div class="flex-1 min-w-[300px] relative">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">filter_list</span>
+                <input class="w-full border-outline-variant border rounded-lg py-2 pl-10 pr-4 text-body-sm focus:ring-1 focus:ring-primary"
+                       placeholder="Find by supplier name, contact, or category..." type="text"/>
+            </div>
+            <div class="flex items-center gap-sm">
+                <span class="text-label-sm font-label-sm text-on-surface-variant">Filter by Status:</span>
+                <select class="bg-surface border-outline-variant rounded-lg px-3 py-2 text-label-md font-label-md focus:ring-1 focus:ring-primary">
+                    <option>All Statuses</option>
+                    <option>Preferred</option>
+                    <option>Active</option>
+                    <option>On Hold</option>
+                </select>
+            </div>
+            <div class="flex items-center gap-sm border-l border-outline-variant pl-md">
+                <button class="p-2 bg-primary-container text-on-primary-container rounded-lg">
+                    <span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+                </button>
+                <button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors">
+                    <span class="material-symbols-outlined" data-icon="view_list">view_list</span>
+                </button>
+            </div>
+        </section>
+        <!-- Metrics Overview (Bento Style) -->
+        <section class="grid grid-cols-12 gap-gutter mb-lg">
+            <div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-md rounded-xl border border-outline-variant soft-shadow">
+                <p class="text-label-md font-label-md text-on-surface-variant mb-xs">Total Registered</p>
+                <p class="text-headline-lg font-headline-lg text-primary">142</p>
+                <div class="flex items-center gap-x-xs mt-sm text-secondary">
+                    <span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+                    <span class="text-label-sm font-label-sm">+3 this month</span>
+                </div>
+            </div>
+            <div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-md rounded-xl border border-outline-variant soft-shadow">
+                <p class="text-label-md font-label-md text-on-surface-variant mb-xs">Active Contracts</p>
+                <p class="text-headline-lg font-headline-lg text-on-surface">89</p>
+                <div class="flex items-center gap-x-xs mt-sm text-on-surface-variant">
+                    <span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+                    <span class="text-label-sm font-label-sm">12 Renewals pending</span>
+                </div>
+            </div>
+            <div class="col-span-12 md:col-span-4 bg-surface-container-lowest p-md rounded-xl border border-outline-variant soft-shadow">
+                <p class="text-label-md font-label-md text-on-surface-variant mb-xs">Avg. Lead Time</p>
+                <p class="text-headline-lg font-headline-lg text-on-surface">4.2 Days</p>
+                <div class="flex items-center gap-x-xs mt-sm text-error">
+                    <span class="material-symbols-outlined text-sm" data-icon="warning">warning</span>
+                    <span class="text-label-sm font-label-sm">Slightly up from 3.8d</span>
+                </div>
+            </div>
+        </section>
+        <!-- Suppliers Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-md">
+            <!-- Supplier Card 1 -->
+            <div class="bg-surface-container-lowest rounded-lg soft-shadow border border-outline-variant card-accent-preferred overflow-hidden">
+                <div class="p-md">
+                    <div class="flex justify-between items-start mb-sm">
+                        <img alt="Global Pharma" class="w-12 h-12 rounded-lg object-cover"
+                             data-alt="A clean, professional close-up of a laboratory building logo on a pristine glass entrance. The setting is a modern pharmaceutical corporate campus during the golden hour, featuring soft, warm lighting and a high-trust, minimalist corporate aesthetic. The overall mood is clinical yet approachable with primary blue accents in the background architecture."
+                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlT1xTiuYFP9UG9EFBDOJw5F8hEGBiuiGSdCZAO01C0O84cNN_NijiAxFazKQJyOuubF1DR82bR5hpDPEIihvE8lOGxIJMy1wG_aDtrF7Moi-8gD2yWkVSQgb9uP9R6qpTut1IYlt8yXtskqAga-kGDcDpX7-q0uAx5kzG4xxUgq5rYCXFC-RAWOZnel1i7Y78nG0-wAB0WpAZGwC_E3FSYmkuSkg_XUVLsTh_PVvVWfmih8HR1kopg_cTOh8VxD6o9ePfqACEAjph"/>
+                        <span class="bg-primary-fixed text-on-primary-fixed-variant px-2 py-1 rounded text-label-sm font-label-sm">Preferred</span>
+                    </div>
+                    <h3 class="text-headline-sm font-headline-sm text-on-surface mb-xs">Global Pharma Corp</h3>
+                    <p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">
+                        Manufacturer</p>
+                    <div class="mt-md space-y-sm">
+                        <div class="flex items-center gap-x-sm text-body-sm font-body-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-sm" data-icon="person">person</span>
+                            Dr. Sarah Jenkins (Senior Logistics)
+                        </div>
+                        <div class="flex items-center gap-x-sm text-body-sm font-body-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-sm" data-icon="inventory">inventory</span>
+                            428 Active Medicines Supplied
+                        </div>
+                        <div class="flex items-center gap-x-sm text-body-sm font-body-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-sm" data-icon="mail">mail</span>
+                            procurement@globalpharma.com
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-surface-container border-t border-outline-variant px-md py-sm flex justify-between items-center">
+                    <div class="flex items-center gap-x-1">
+                        <span class="material-symbols-outlined text-primary text-sm" data-icon="star"
+                              style="font-variation-settings: 'FILL' 1;">star</span>
+                        <span class="text-label-md font-label-md">4.9/5.0</span>
+                    </div>
+                    <button class="text-primary font-label-md text-label-md hover:underline">View Details</button>
+                </div>
+            </div>
+            <!-- Supplier Card 2 -->
+            <div class="bg-surface-container-lowest rounded-lg soft-shadow border border-outline-variant card-accent-active overflow-hidden">
+                <div class="p-md">
+                    <div class="flex justify-between items-start mb-sm">
+                        <img alt="Apex Bio-Labs" class="w-12 h-12 rounded-lg object-cover"
+                             data-alt="An advanced medical research laboratory interior with focused, cool blue-toned lighting. The environment is sterile and professional, showcasing high-end scientific equipment and modular workstations. This minimalist setting conveys innovation and reliability, with a sophisticated corporate color palette that emphasizes technical precision and medical excellence."
+                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCom48ZSNQ2n3VJFYMqXJQ4-Z575qm8rnHTT6lDGROETgfdmqRviDtKQI16-mZT3OWJJ2FxQVlojFjqKsetOl3vOz4zEFdyZ9JOhvZEnLuaywK-NR5xML0F_7d5FeSpucE5AlYVYB-U7Zmmk-BigryMfbtI0Kvmj5nYzW6jIOXlCy7kQyoMcUPz5oIXNV_Pn7T5iMPjy04UP_vda7e2TmzxMmIXJS_tfXGOmJTVVUMY1_maK2A_HM4rNmDIlp2ztOWWbfm-Ga0cFUi0"/>
+                        <span class="bg-secondary-container text-on-secondary-container px-2 py-1 rounded text-label-sm font-label-sm">Active</span>
+                    </div>
+                    <h3 class="text-headline-sm font-headline-sm text-on-surface mb-xs">Apex Bio-Labs</h3>
+                    <p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">
+                        Specialized</p>
+                    <div class="mt-md space-y-sm">
+                        <div class="flex items-center gap-x-sm text-body-sm font-body-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-sm" data-icon="person">person</span>
+                            Mark Sterling (Accounts)
+                        </div>
+                        <div class="flex items-center gap-x-sm text-body-sm font-body-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-sm" data-icon="inventory">inventory</span>
+                            56 Rare Antibiotics
+                        </div>
+                        <div class="flex items-center gap-x-sm text-body-sm font-body-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-sm" data-icon="call">call</span>
+                            +1 (555) 012-9988
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-surface-container border-t border-outline-variant px-md py-sm flex justify-between items-center">
+                    <div class="flex items-center gap-x-1">
+                        <span class="material-symbols-outlined text-primary text-sm" data-icon="star"
+                              style="font-variation-settings: 'FILL' 1;">star</span>
+                        <span class="text-label-md font-label-md">4.5/5.0</span>
+                    </div>
+                    <button class="text-primary font-label-md text-label-md hover:underline">View Details</button>
+                </div>
+            </div>
+            <!-- Supplier Card 3 -->
+            <div class="bg-surface-container-lowest rounded-lg soft-shadow border border-outline-variant card-accent-active overflow-hidden">
+                <div class="p-md">
+                    <div class="flex justify-between items-start mb-sm">
+                        <img alt="Unity Med Wholesale" class="w-12 h-12 rounded-lg object-cover"
+                             data-alt="A large, efficiently organized logistics warehouse with rows of high-shelving units holding medical supply boxes. The lighting is bright and industrial, creating a clean and productive atmosphere. The scene highlights modern supply chain management with a focus on sterile packaging and systematic order, using a professional palette of grays and blues."
+                             src="https://lh3.googleusercontent.com/aida-public/AB6AXuDL33wRfLbJvZSQCP8zhmTbeVLCOhfZ5TUkId8FtyQbk4eJpiyCM56jN0lslLXWny56gUfJfxXtyi37ZnmEcIcZXDkBLjEmb8EOLmyUeMPyXU8QM13rzaZ2rIQhSb7MlEZCcit9f9DQE_BKixZHude_KapQE02WIv-AOMukdRehuhQuOGzzh9yr5UkJJO0dPHXei4cD4C_VSOMKPD94YbjBzCyOf6YOfEMLV2eF8Py8Hs3RCHS5PoSKCgRIt9-ajG4XY1kjx7Ww1c0x"/>
+                        <span class="bg-secondary-container text-on-secondary-container px-2 py-1 rounded text-label-sm font-label-sm">Active</span>
+                    </div>
+                    <h3 class="text-headline-sm font-headline-sm text-on-surface mb-xs">Unity Med Wholesale</h3>
+                    <p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">
+                        Wholesale</p>
+                    <div class="mt-md space-y-sm">
+                        <div class="flex items-center gap-x-sm text-body-sm font-body-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-sm" data-icon="person">person</span>
+                            Linda Ortiz (Operations)
+                        </div>
+                        <div class="flex items-center gap-x-sm text-body-sm font-body-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-sm" data-icon="inventory">inventory</span>
+                            1,240 Generic Medicines
+                        </div>
+                        <div class="flex items-center gap-x-sm text-body-sm font-body-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-sm" data-icon="call">call</span>
+                            +1 (555) 987-1234
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-surface-container border-t border-outline-variant px-md py-sm flex justify-between items-center">
+                    <div class="flex items-center gap-x-1">
+                        <span class="material-symbols-outlined text-primary text-sm" data-icon="star"
+                              style="font-variation-settings: 'FILL' 1;">star</span>
+                        <span class="text-label-md font-label-md">4.2/5.0</span>
+                    </div>
+                    <button class="text-primary font-label-md text-label-md hover:underline">View Details</button>
+                </div>
+            </div>
+            <!-- Supplier Card 4 -->
+            <div class="bg-surface-container-lowest rounded-lg soft-shadow border border-outline-variant card-accent-hold overflow-hidden">
+                <div class="p-md">
+                    <div class="flex justify-between items-start mb-sm">
+                        <div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center">
+                            <span class="material-symbols-outlined text-outline" data-icon="domain">domain</span>
+                        </div>
+                        <span class="bg-error-container text-on-error-container px-2 py-1 rounded text-label-sm font-label-sm">On Hold</span>
+                    </div>
+                    <h3 class="text-headline-sm font-headline-sm text-on-surface mb-xs">Zenith Medical</h3>
+                    <p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">
+                        Manufacturer</p>
+                    <div class="mt-md space-y-sm">
+                        <div class="flex items-center gap-x-sm text-body-sm font-body-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-sm" data-icon="person">person</span>
+                            James Wu (Quality Control)
+                        </div>
+                        <div class="flex items-center gap-x-sm text-body-sm font-body-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-sm" data-icon="inventory">inventory</span>
+                            12 Specialized Vaccines
+                        </div>
+                        <div class="flex items-center gap-x-sm text-body-sm font-body-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-sm" data-icon="warning">warning</span>
+                            Quality Audit Pending (Nov 2023)
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-surface-container border-t border-outline-variant px-md py-sm flex justify-between items-center">
+                    <div class="flex items-center gap-x-1">
+                        <span class="material-symbols-outlined text-outline text-sm" data-icon="star">star</span>
+                        <span class="text-label-md font-label-md text-on-surface-variant">3.8/5.0</span>
+                    </div>
+                    <button class="text-primary font-label-md text-label-md hover:underline">View Details</button>
+                </div>
+            </div>
+        </section>
+        <!-- Table View (Hidden on mobile, showing as alternative for desktop) -->
+        <section class="mt-xl hidden lg:block">
+            <div class="flex items-center justify-between mb-md">
+                <h4 class="text-headline-sm font-headline-sm text-on-surface">Recent Supplier Interactions</h4>
+                <button class="text-label-md font-label-md text-primary hover:bg-primary-container/10 px-3 py-1 rounded transition-colors">
+                    Export Report
+                </button>
+            </div>
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden soft-shadow">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-surface-container-low border-b border-outline-variant">
+                    <tr>
+                        <th class="px-6 py-4 text-label-md font-label-md text-on-surface-variant">Supplier Name</th>
+                        <th class="px-6 py-4 text-label-md font-label-md text-on-surface-variant">Interaction Type</th>
+                        <th class="px-6 py-4 text-label-md font-label-md text-on-surface-variant">Date</th>
+                        <th class="px-6 py-4 text-label-md font-label-md text-on-surface-variant">Outcome</th>
+                        <th class="px-6 py-4 text-label-md font-label-md text-on-surface-variant">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline-variant">
+                    <tr class="hover:bg-surface-container-low transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-x-sm">
+                                <div class="w-8 h-8 rounded bg-primary-container/20 flex items-center justify-center text-primary font-bold text-xs">
+                                    GP
+                                </div>
+                                <span class="text-body-md font-body-md font-semibold">Global Pharma Corp</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-body-sm font-body-sm">Inventory Restock</td>
+                        <td class="px-6 py-4 text-body-sm font-body-sm">Oct 24, 2023</td>
+                        <td class="px-6 py-4">
+                            <span class="bg-secondary-fixed text-on-secondary-fixed-variant px-2 py-0.5 rounded-full text-label-sm font-label-sm">Completed</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <button class="material-symbols-outlined text-outline hover:text-primary transition-colors"
+                                    data-icon="more_vert">more_vert
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-surface-container-low transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-x-sm">
+                                <div class="w-8 h-8 rounded bg-secondary-container/20 flex items-center justify-center text-secondary font-bold text-xs">
+                                    AB
+                                </div>
+                                <span class="text-body-md font-body-md font-semibold">Apex Bio-Labs</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-body-sm font-body-sm">Contract Renewal</td>
+                        <td class="px-6 py-4 text-body-sm font-body-sm">Oct 22, 2023</td>
+                        <td class="px-6 py-4">
+                            <span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-2 py-0.5 rounded-full text-label-sm font-label-sm">Under Review</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <button class="material-symbols-outlined text-outline hover:text-primary transition-colors"
+                                    data-icon="more_vert">more_vert
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-surface-container-low transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-x-sm">
+                                <div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-on-surface-variant font-bold text-xs">
+                                    UM
+                                </div>
+                                <span class="text-body-md font-body-md font-semibold">Unity Med Wholesale</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-body-sm font-body-sm">Order Discrepancy</td>
+                        <td class="px-6 py-4 text-body-sm font-body-sm">Oct 20, 2023</td>
+                        <td class="px-6 py-4">
+                            <span class="bg-error-container text-on-error-container px-2 py-0.5 rounded-full text-label-sm font-label-sm">Resolved</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <button class="material-symbols-outlined text-outline hover:text-primary transition-colors"
+                                    data-icon="more_vert">more_vert
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</main>
 </body>
 </html>

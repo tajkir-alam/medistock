@@ -1,10 +1,442 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html class="light" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="utf-8"/>
+    <title>Medistock Dashboard</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+          rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+          rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+          rel="stylesheet"/>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .card-shadow {
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed-dim": "#acc7ff",
+                      "outline": "#727784",
+                      "error-container": "#ffdad6",
+                      "surface-dim": "#d9dadb",
+                      "primary-fixed": "#d7e2ff",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed": "#dbe4ed",
+                      "surface-container-low": "#f3f4f5",
+                      "surface-variant": "#e1e3e4",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed-dim": "#bfc8d0",
+                      "surface-bright": "#f8f9fa",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "surface-container-highest": "#e1e3e4",
+                      "on-primary-container": "#bbd0ff",
+                      "background": "#f8f9fa",
+                      "on-surface": "#191c1d",
+                      "surface-container": "#edeeef",
+                      "on-secondary-container": "#007354",
+                      "secondary": "#006c4f",
+                      "on-background": "#191c1d",
+                      "secondary-fixed-dim": "#44dfab",
+                      "inverse-primary": "#acc7ff",
+                      "tertiary-container": "#515a62",
+                      "on-surface-variant": "#424752",
+                      "on-error-container": "#93000a",
+                      "on-primary-fixed": "#001a40",
+                      "error": "#ba1a1a",
+                      "on-tertiary-fixed-variant": "#3f484f",
+                      "inverse-on-surface": "#f0f1f2",
+                      "on-secondary-fixed": "#002116",
+                      "secondary-container": "#67fcc6",
+                      "surface-container-high": "#e7e8e9",
+                      "on-tertiary-fixed": "#141d23",
+                      "on-primary-fixed-variant": "#004491",
+                      "surface": "#f8f9fa",
+                      "outline-variant": "#c2c6d4",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed-variant": "#00513a",
+                      "surface-tint": "#115cb9",
+                      "inverse-surface": "#2e3132",
+                      "tertiary": "#3a434a",
+                      "secondary-fixed": "#67fcc6",
+                      "primary-container": "#0056b3",
+                      "primary": "#003f87"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "sm": "12px",
+                      "xl": "64px",
+                      "base": "8px",
+                      "margin-desktop": "32px",
+                      "lg": "48px",
+                      "md": "24px",
+                      "gutter": "16px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "label-md": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "headline-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-md": ["Inter"]
+              },
+              "fontSize": {
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
 </head>
-<body>
-$END$
+<body class="bg-background text-on-surface flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 z-50 bg-surface-container-lowest border-r border-outline-variant flex flex-col p-4 gap-y-base shadow-md">
+    <div class="mb-lg">
+        <div class="flex items-center gap-sm px-2">
+            <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-on-primary">
+                <span class="material-symbols-outlined" data-icon="medical_services">medical_services</span>
+            </div>
+            <div>
+                <h1 class="text-headline-sm font-headline-sm font-bold text-primary">MediStock Pro</h1>
+                <p class="text-body-sm font-body-sm text-on-surface-variant">Central Pharmacy</p>
+            </div>
+        </div>
+    </div>
+    <nav class="flex-grow space-y-1">
+        <a class="bg-primary-container text-on-primary-container font-semibold rounded-lg flex items-center px-4 py-3 scale-95 transition-transform"
+           href="/dashboard">
+            <span class="material-symbols-outlined mr-3">dashboard</span>
+            <span class="font-label-md text-label-md">Dashboard</span>
+        </a>
+        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="/inventory">
+            <span class="material-symbols-outlined mr-3">inventory_2</span>
+            <span class="font-label-md text-label-md">Inventory</span>
+        </a>
+        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="/orders">
+            <span class="material-symbols-outlined mr-3">receipt_long</span>
+            <span class="font-label-md text-label-md">Orders</span>
+        </a>
+        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="/suppliers">
+            <span class="material-symbols-outlined mr-3">local_shipping</span>
+            <span class="font-label-md text-label-md">Suppliers</span>
+        </a>
+        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="/analytics">
+            <span class="material-symbols-outlined mr-3">analytics</span>
+            <span class="font-label-md text-label-md">Analytics</span>
+        </a>
+    </nav>
+    <div class="mt-auto space-y-1">
+        <button class="w-full mb-base bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md flex items-center justify-center gap-xs hover:opacity-90 transition-all">
+            <span class="material-symbols-outlined" data-icon="add">add</span>
+            New Entry
+        </button>
+        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="#">
+            <span class="material-symbols-outlined mr-3" data-icon="settings">settings</span>
+            <span class="text-label-md font-label-md">Settings</span>
+        </a>
+        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="#">
+            <span class="material-symbols-outlined mr-3" data-icon="help">help</span>
+            <span class="text-label-md font-label-md">Support</span>
+        </a>
+    </div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-64 min-h-screen">
+    <!-- TopAppBar -->
+    <header class="flex justify-between items-center w-full px-margin-desktop sticky top-0 z-40 bg-surface h-16 border-b border-outline-variant shadow-sm">
+        <h2 class="text-headline-sm font-headline-sm font-bold text-primary">Dashboard Overview</h2>
+        <div class="flex items-center gap-md">
+            <div class="relative">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant"
+                      data-icon="search">search</span>
+                <input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg text-body-sm focus:outline-none focus:ring-2 focus:ring-primary w-64"
+                       placeholder="Search inventory..." type="text"/>
+            </div>
+            <div class="flex items-center gap-sm">
+                <button class="p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full relative">
+                    <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+                </button>
+                <button class="p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full">
+                    <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <!-- Dashboard Content -->
+    <div class="p-margin-desktop space-y-lg">
+        <!-- Statistics Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-gutter">
+            <!-- Total Medicines -->
+            <div class="bg-surface-container-lowest p-md rounded-lg card-shadow border-l-4 border-primary">
+                <div class="flex justify-between items-start mb-base">
+                    <span class="text-on-surface-variant text-label-md font-label-md">Total Medicines</span>
+                    <span class="text-secondary text-label-sm font-label-sm bg-secondary-container px-2 py-0.5 rounded-full">+12%</span>
+                </div>
+                <div class="text-headline-lg font-headline-lg text-on-surface">1,284</div>
+                <p class="text-body-sm font-body-sm text-outline mt-xs">Across 14 categories</p>
+            </div>
+            <!-- Low Stock -->
+            <div class="bg-surface-container-lowest p-md rounded-lg card-shadow border-l-4 border-[#FFB000]">
+                <div class="flex justify-between items-start mb-base">
+                    <span class="text-on-surface-variant text-label-md font-label-md">Low Stock Items</span>
+                    <span class="material-symbols-outlined text-[#FFB000]" data-icon="warning">warning</span>
+                </div>
+                <div class="text-headline-lg font-headline-lg text-on-surface">42</div>
+                <p class="text-body-sm font-body-sm text-outline mt-xs">Requires immediate reorder</p>
+            </div>
+            <!-- Expired Items -->
+            <div class="bg-surface-container-lowest p-md rounded-lg card-shadow border-l-4 border-error">
+                <div class="flex justify-between items-start mb-base">
+                    <span class="text-on-surface-variant text-label-md font-label-md">Expired Items</span>
+                    <span class="text-error text-label-sm font-label-sm bg-error-container px-2 py-0.5 rounded-full">Critical</span>
+                </div>
+                <div class="text-headline-lg font-headline-lg text-on-surface">8</div>
+                <p class="text-body-sm font-body-sm text-outline mt-xs">Marked for disposal</p>
+            </div>
+            <!-- Active Suppliers -->
+            <div class="bg-surface-container-lowest p-md rounded-lg card-shadow border-l-4 border-primary-fixed-dim">
+                <div class="flex justify-between items-start mb-base">
+                    <span class="text-on-surface-variant text-label-md font-label-md">Active Suppliers</span>
+                    <span class="material-symbols-outlined text-primary"
+                          data-icon="local_shipping">local_shipping</span>
+                </div>
+                <div class="text-headline-lg font-headline-lg text-on-surface">26</div>
+                <p class="text-body-sm font-body-sm text-outline mt-xs">Last delivery today, 08:45 AM</p>
+            </div>
+        </section>
+        <!-- Bento Layout Main Grid -->
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-gutter">
+            <!-- Low Stock Alerts (Wide) -->
+            <section class="xl:col-span-1 space-y-md">
+                <div class="bg-surface-container-lowest p-md rounded-lg card-shadow h-full flex flex-col">
+                    <div class="flex justify-between items-center mb-md">
+                        <h3 class="text-headline-sm font-headline-sm text-on-surface">Low Stock Alerts</h3>
+                        <button class="text-primary text-label-md font-label-md hover:underline">View All</button>
+                    </div>
+                    <div class="space-y-sm flex-1">
+                        <!-- Alert Item 1 -->
+                        <div class="flex items-center p-sm bg-surface-container-low rounded-lg border border-outline-variant">
+                            <div class="w-10 h-10 rounded-full bg-error-container text-error flex items-center justify-center mr-sm">
+                                <span class="material-symbols-outlined" data-icon="priority_high">priority_high</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-label-md font-label-md text-on-surface">Amoxicillin 500mg</div>
+                                <div class="text-body-sm font-body-sm text-outline">Stock: 12 Units (Min: 50)</div>
+                            </div>
+                            <button class="px-3 py-1 bg-primary text-on-primary rounded text-label-sm font-label-sm">
+                                Order
+                            </button>
+                        </div>
+                        <!-- Alert Item 2 -->
+                        <div class="flex items-center p-sm bg-surface-container-low rounded-lg border border-outline-variant">
+                            <div class="w-10 h-10 rounded-full bg-error-container text-error flex items-center justify-center mr-sm">
+                                <span class="material-symbols-outlined" data-icon="priority_high">priority_high</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-label-md font-label-md text-on-surface">Lisinopril 10mg</div>
+                                <div class="text-body-sm font-body-sm text-outline">Stock: 5 Units (Min: 20)</div>
+                            </div>
+                            <button class="px-3 py-1 bg-primary text-on-primary rounded text-label-sm font-label-sm">
+                                Order
+                            </button>
+                        </div>
+                        <!-- Alert Item 3 -->
+                        <div class="flex items-center p-sm bg-surface-container-low rounded-lg border border-outline-variant">
+                            <div class="w-10 h-10 rounded-full bg-error-container text-error flex items-center justify-center mr-sm">
+                                <span class="material-symbols-outlined" data-icon="priority_high">priority_high</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-label-md font-label-md text-on-surface">Metformin 850mg</div>
+                                <div class="text-body-sm font-body-sm text-outline">Stock: 18 Units (Min: 100)</div>
+                            </div>
+                            <button class="px-3 py-1 bg-primary text-on-primary rounded text-label-sm font-label-sm">
+                                Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Recent Activity Table (Wider) -->
+            <section class="xl:col-span-2">
+                <div class="bg-surface-container-lowest rounded-lg card-shadow h-full flex flex-col">
+                    <div class="p-md border-b border-outline-variant flex justify-between items-center">
+                        <h3 class="text-headline-sm font-headline-sm text-on-surface">Recent Inventory Activity</h3>
+                        <div class="flex gap-sm">
+                            <button class="flex items-center gap-xs px-3 py-1.5 border border-outline-variant rounded-lg text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-low">
+                                <span class="material-symbols-outlined text-[18px]"
+                                      data-icon="filter_list">filter_list</span>
+                                Filter
+                            </button>
+                            <button class="flex items-center gap-xs px-3 py-1.5 border border-outline-variant rounded-lg text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-low">
+                                <span class="material-symbols-outlined text-[18px]" data-icon="download">download</span>
+                                Export
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-surface-container-low">
+                            <tr>
+                                <th class="px-md py-3 text-label-md font-label-md text-on-surface-variant">Item Name
+                                </th>
+                                <th class="px-md py-3 text-label-md font-label-md text-on-surface-variant">Type</th>
+                                <th class="px-md py-3 text-label-md font-label-md text-on-surface-variant">Change</th>
+                                <th class="px-md py-3 text-label-md font-label-md text-on-surface-variant">Performed
+                                    By
+                                </th>
+                                <th class="px-md py-3 text-label-md font-label-md text-on-surface-variant">Timestamp
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody class="divide-y divide-outline-variant">
+                            <tr class="hover:bg-surface-container-low transition-colors">
+                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Paracetamol 500mg</td>
+                                <td class="px-md py-4"><span
+                                        class="px-2 py-1 bg-secondary-container text-on-secondary-container text-label-sm font-label-sm rounded-full">Inbound</span>
+                                </td>
+                                <td class="px-md py-4 text-body-md font-body-md text-secondary font-semibold">+500
+                                    Units
+                                </td>
+                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Dr. Sarah Jenkins</td>
+                                <td class="px-md py-4 text-body-sm font-body-sm text-outline">Oct 24, 09:12 AM</td>
+                            </tr>
+                            <tr class="hover:bg-surface-container-low transition-colors">
+                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Ibuprofen 200mg</td>
+                                <td class="px-md py-4"><span
+                                        class="px-2 py-1 bg-error-container text-on-error-container text-label-sm font-label-sm rounded-full">Outbound</span>
+                                </td>
+                                <td class="px-md py-4 text-body-md font-body-md text-error font-semibold">-50 Units</td>
+                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Pharmacist Ryan L.</td>
+                                <td class="px-md py-4 text-body-sm font-body-sm text-outline">Oct 24, 08:45 AM</td>
+                            </tr>
+                            <tr class="hover:bg-surface-container-low transition-colors">
+                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Lipitor 20mg</td>
+                                <td class="px-md py-4"><span
+                                        class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant text-label-sm font-label-sm rounded-full">Adjustment</span>
+                                </td>
+                                <td class="px-md py-4 text-body-md font-body-md text-on-surface font-semibold">-2
+                                    Units
+                                </td>
+                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Admin System</td>
+                                <td class="px-md py-4 text-body-sm font-body-sm text-outline">Oct 24, 07:30 AM</td>
+                            </tr>
+                            <tr class="hover:bg-surface-container-low transition-colors">
+                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Ventolin Inhaler</td>
+                                <td class="px-md py-4"><span
+                                        class="px-2 py-1 bg-secondary-container text-on-secondary-container text-label-sm font-label-sm rounded-full">Inbound</span>
+                                </td>
+                                <td class="px-md py-4 text-body-md font-body-md text-secondary font-semibold">+120
+                                    Units
+                                </td>
+                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Dr. Sarah Jenkins</td>
+                                <td class="px-md py-4 text-body-sm font-body-sm text-outline">Oct 23, 04:55 PM</td>
+                            </tr>
+                            <tr class="hover:bg-surface-container-low transition-colors">
+                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Sertraline 50mg</td>
+                                <td class="px-md py-4"><span
+                                        class="px-2 py-1 bg-error-container text-on-error-container text-label-sm font-label-sm rounded-full">Outbound</span>
+                                </td>
+                                <td class="px-md py-4 text-body-md font-body-md text-error font-semibold">-30 Units</td>
+                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Pharmacist Ryan L.</td>
+                                <td class="px-md py-4 text-body-sm font-body-sm text-outline">Oct 23, 03:20 PM</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-md mt-auto border-t border-outline-variant text-center">
+                        <button class="text-primary text-label-md font-label-md hover:underline">View Full Audit Log
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- Bottom Graphic Section -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+            <div class="relative h-64 rounded-lg overflow-hidden card-shadow">
+                <img alt="Pharmacy Storage" class="absolute inset-0 w-full h-full object-cover"
+                     data-alt="A clean, professionally lit modern pharmacy storage area with organized rows of medicine bottles on bright white shelves. The lighting is sterile and clinical, with soft highlights reflecting off glass surfaces. The color palette is dominated by medicinal whites and calm blues, creating a high-trust healthcare environment. The atmosphere is quiet, efficient, and technologically advanced."
+                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhOeBgrpUIFTzYqXn2urFqFok3-yPPd4R87Xk1zGGAMTalwvaGMa85Jh_ERhzWJrlmiK-bXX0chmj9-bAuw5V6Hj9kZyJaerElD6AeamGrQoKFTSWzhjcBtdZRGNCT3Kw-I7QhrInFu5zvwi_j-fCziFSzDojmddx7KgXUjEPIS1h8rI1cPxFlVDwPvE2JOQnS2xekHoA9U8WMbzZLH71TgOZWhUL0paPnWb75_vOy2rV7F6oHse4BJ4OPtd2BargAItUxe70Pjx6d"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex flex-col justify-end p-md">
+                    <h4 class="text-headline-sm font-headline-sm text-on-primary">Stock Compliance Update</h4>
+                    <p class="text-body-sm font-body-sm text-primary-fixed">New regulations for cold-chain storage
+                        effective Nov 1st.</p>
+                </div>
+            </div>
+            <div class="bg-surface-container-lowest p-md rounded-lg card-shadow border border-outline-variant flex flex-col">
+                <h3 class="text-headline-sm font-headline-sm text-on-surface mb-base">Warehouse Status</h3>
+                <div class="flex-1 flex items-center justify-center">
+                    <div class="w-full space-y-md">
+                        <div>
+                            <div class="flex justify-between mb-xs">
+                                <span class="text-label-md font-label-md text-on-surface-variant">Main Cold Storage (2°C - 8°C)</span>
+                                <span class="text-label-md font-label-md text-secondary">Optimal</span>
+                            </div>
+                            <div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+                                <div class="bg-secondary h-full w-[85%]"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-xs">
+                                <span class="text-label-md font-label-md text-on-surface-variant">Ambient Storage (15°C - 25°C)</span>
+                                <span class="text-label-md font-label-md text-secondary">Optimal</span>
+                            </div>
+                            <div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+                                <div class="bg-secondary h-full w-[92%]"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-xs">
+                                <span class="text-label-md font-label-md text-on-surface-variant">Controlled Substances Vault</span>
+                                <span class="text-label-md font-label-md text-primary">Secure</span>
+                            </div>
+                            <div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+                                <div class="bg-primary h-full w-[100%]"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
 </body>
 </html>

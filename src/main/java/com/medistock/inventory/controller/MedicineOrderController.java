@@ -1,10 +1,10 @@
 package com.medistock.inventory.controller;
 
 import com.medistock.inventory.model.MedicineOrder;
-import com.medistock.inventory.model.OrderItem;
 import com.medistock.inventory.model.enums.OrderStatus;
-import com.medistock.inventory.repository.MedicineOrderRepository;
+import com.medistock.inventory.service.MedicineOrderService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,68 +13,56 @@ import java.util.List;
 @RequestMapping("/api/orders")
 public class MedicineOrderController {
 
-    private final MedicineOrderRepository medicineOrderRepository;
+    private final MedicineOrderService medicineOrderService;
 
-    public MedicineOrderController(MedicineOrderRepository medicineOrderRepository) {
-        this.medicineOrderRepository = medicineOrderRepository;
+    public MedicineOrderController(MedicineOrderService medicineOrderService) {
+        this.medicineOrderService = medicineOrderService;
     }
 
     @GetMapping
     public List<MedicineOrder> getAllOrders() {
-        return medicineOrderRepository.findAll();
+        return medicineOrderService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MedicineOrder> getOrderById(@PathVariable Long id) {
-        return medicineOrderRepository.findById(id)
+    public ResponseEntity<MedicineOrder> getOrderById(@PathVariable @NonNull Long id) {
+        return medicineOrderService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/supplier/{supplierId}")
-    public List<MedicineOrder> getOrdersBySupplier(@PathVariable Long supplierId) {
-        return medicineOrderRepository.findBySupplierId(supplierId);
+    public List<MedicineOrder> getOrdersBySupplier(@PathVariable @NonNull Long supplierId) {
+        return medicineOrderService.findBySupplierId(supplierId);
     }
 
     @GetMapping("/status/{status}")
     public List<MedicineOrder> getOrdersByStatus(@PathVariable OrderStatus status) {
-        return medicineOrderRepository.findByStatus(status);
+        return medicineOrderService.findByStatus(status);
     }
 
     @PostMapping
     public MedicineOrder createOrder(@RequestBody MedicineOrder medicineOrder) {
-        attachParentToOrderItems(medicineOrder);
-        return medicineOrderRepository.save(medicineOrder);
+        return medicineOrderService.save(medicineOrder);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MedicineOrder> updateOrder(@PathVariable Long id, @RequestBody MedicineOrder medicineOrder) {
-        return medicineOrderRepository.findById(id)
+    public ResponseEntity<MedicineOrder> updateOrder(@PathVariable @NonNull Long id, @RequestBody MedicineOrder medicineOrder) {
+        return medicineOrderService.findById(id)
                 .map(existing -> {
                     medicineOrder.setId(existing.getId());
-                    attachParentToOrderItems(medicineOrder);
-                    return ResponseEntity.ok(medicineOrderRepository.save(medicineOrder));
+                    return ResponseEntity.ok(medicineOrderService.save(medicineOrder));
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        if (!medicineOrderRepository.existsById(id)) {
+    public ResponseEntity<Void> deleteOrder(@PathVariable @NonNull Long id) {
+        if (!medicineOrderService.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
 
-        medicineOrderRepository.deleteById(id);
+        medicineOrderService.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    private void attachParentToOrderItems(MedicineOrder medicineOrder) {
-        if (medicineOrder.getOrderItems() == null) {
-            return;
-        }
-
-        for (OrderItem orderItem : medicineOrder.getOrderItems()) {
-            orderItem.setMedicineOrder(medicineOrder);
-        }
     }
 }

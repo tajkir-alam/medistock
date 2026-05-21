@@ -1,6 +1,7 @@
 package com.medistock.inventory.model;
 
 import com.medistock.inventory.model.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -52,6 +53,7 @@ public class MedicineOrder {
             mappedBy = "medicineOrder",
             cascade = CascadeType.ALL
     )
+        @JsonManagedReference
     private List<OrderItem> orderItems;
 
     @PrePersist

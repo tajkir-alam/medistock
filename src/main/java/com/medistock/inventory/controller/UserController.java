@@ -1,8 +1,9 @@
 package com.medistock.inventory.controller;
 
 import com.medistock.inventory.model.User;
-import com.medistock.inventory.repository.UserRepository;
+import com.medistock.inventory.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,60 +12,60 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        return userRepository.findById(id)
+    public ResponseEntity<User> getUserById(@PathVariable @NonNull Long id) {
+        return userService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/username/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
-        return userRepository.findByUsername(username)
+        return userService.findByUsername(username)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/email/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-        return userRepository.findByEmail(email)
+        return userService.findByEmail(email)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+        return userService.save(user);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-        return userRepository.findById(id)
+    public ResponseEntity<User> updateUser(@PathVariable @NonNull Long id, @RequestBody User user) {
+        return userService.findById(id)
                 .map(existing -> {
                     user.setId(existing.getId());
-                    return ResponseEntity.ok(userRepository.save(user));
+                    return ResponseEntity.ok(userService.save(user));
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        if (!userRepository.existsById(id)) {
+    public ResponseEntity<Void> deleteUser(@PathVariable @NonNull Long id) {
+        if (!userService.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
 
-        userRepository.deleteById(id);
+        userService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,10 +1,377 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="utf-8"/>
+    <title>MediStock Create Order</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Add Purchase Order | MediStock Pro</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+          rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+          rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f3f4f5",
+                        "inverse-surface": "#2e3132",
+                        "on-primary-fixed": "#001a40",
+                        "on-background": "#191c1d",
+                        "outline-variant": "#c2c6d4",
+                        "primary": "#003f87",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f8f9fa",
+                        "on-secondary-fixed-variant": "#00513a",
+                        "on-primary-fixed-variant": "#004491",
+                        "secondary": "#006c4f",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#3f484f",
+                        "secondary-fixed": "#67fcc6",
+                        "on-surface-variant": "#424752",
+                        "surface-bright": "#f8f9fa",
+                        "surface-tint": "#115cb9",
+                        "surface-dim": "#d9dadb",
+                        "primary-fixed": "#d7e2ff",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#007354",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-surface": "#191c1d",
+                        "primary-fixed-dim": "#acc7ff",
+                        "surface-variant": "#e1e3e4",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#0056b3",
+                        "tertiary-fixed-dim": "#bfc8d0",
+                        "outline": "#727784",
+                        "tertiary-fixed": "#dbe4ed",
+                        "secondary-container": "#67fcc6",
+                        "on-primary-container": "#bbd0ff",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#f8f9fa",
+                        "inverse-primary": "#acc7ff",
+                        "on-tertiary-fixed": "#141d23",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#44dfab",
+                        "on-tertiary-container": "#c8d1da",
+                        "on-secondary-fixed": "#002116",
+                        "tertiary-container": "#515a62",
+                        "tertiary": "#3a434a",
+                        "surface-container": "#edeeef"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "32px",
+                        "xl": "64px",
+                        "xs": "4px",
+                        "sm": "12px",
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "md": "24px",
+                        "lg": "48px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-shadow { box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); }
+    </style>
 </head>
-<body>
-$END$
+<body class="bg-background text-on-background min-h-screen">
+<!-- Sidebar Navigation -->
+<aside class="bg-surface-container-lowest dark:bg-surface-container h-screen w-64 fixed left-0 top-0 z-50 border-r border-outline-variant dark:border-outline shadow-md dark:shadow-none flex flex-col p-4 gap-y-base">
+    <div class="mb-lg">
+        <h1 class="text-headline-sm font-headline-sm font-bold text-primary dark:text-primary-fixed-dim">MediStock
+            Pro</h1>
+        <p class="text-body-sm font-body-sm text-on-surface-variant">Central Pharmacy</p>
+    </div>
+    <nav class="flex flex-col gap-y-1 grow">
+        <a class="text-on-surface-variant dark:text-on-tertiary-container hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="#">
+            <span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
+            <span class="text-label-md font-label-md">Dashboard</span>
+        </a>
+        <a class="text-on-surface-variant dark:text-on-tertiary-container hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="#">
+            <span class="material-symbols-outlined mr-3" data-icon="inventory_2">inventory_2</span>
+            <span class="text-label-md font-label-md">Inventory</span>
+        </a>
+        <a class="bg-primary-container text-on-primary-container font-semibold rounded-lg flex items-center px-4 py-3 scale-95 transition-transform"
+           href="#">
+            <span class="material-symbols-outlined mr-3" data-icon="receipt_long">receipt_long</span>
+            <span class="text-label-md font-label-md">Orders</span>
+        </a>
+        <a class="text-on-surface-variant dark:text-on-tertiary-container hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="#">
+            <span class="material-symbols-outlined mr-3" data-icon="local_shipping">local_shipping</span>
+            <span class="text-label-md font-label-md">Suppliers</span>
+        </a>
+        <a class="text-on-surface-variant dark:text-on-tertiary-container hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="/analytics">
+            <span class="material-symbols-outlined mr-3" data-icon="analytics">analytics</span>
+            <span class="text-label-md font-label-md">Analytics</span>
+        </a>
+    </nav>
+    <div class="border-t border-outline-variant pt-4 mt-auto">
+        <a class="text-on-surface-variant dark:text-on-tertiary-container hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="#">
+            <span class="material-symbols-outlined mr-3" data-icon="settings">settings</span>
+            <span class="text-label-md font-label-md">Settings</span>
+        </a>
+        <a class="text-on-surface-variant dark:text-on-tertiary-container hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
+           href="#">
+            <span class="material-symbols-outlined mr-3" data-icon="help">help</span>
+            <span class="text-label-md font-label-md">Support</span>
+        </a>
+    </div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen">
+    <!-- Top Bar -->
+    <header class="bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none flex justify-between items-center w-full px-margin-desktop sticky top-0 z-40 h-16">
+        <div class="flex items-center gap-4">
+            <a href="/orders" class="material-symbols-outlined text-on-surface-variant p-2 rounded-full hover:bg-surface-container-low transition-colors"
+                    data-icon="arrow_back">arrow_back
+            </a>
+            <h2 class="text-headline-sm font-headline-sm text-primary dark:text-primary-fixed-dim">New Purchase
+                Order</h2>
+        </div>
+        <div class="flex items-center gap-4">
+            <span class="material-symbols-outlined text-on-surface-variant p-2 rounded-full hover:bg-surface-container-low transition-colors"
+                  data-icon="notifications">notifications</span>
+            <div class="h-8 w-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-label-sm">
+                JD
+            </div>
+        </div>
+    </header>
+    <!-- Form Content -->
+    <div class="p-margin-desktop max-w-7xl mx-auto">
+        <div class="grid grid-cols-12 gap-gutter">
+            <!-- Left Column: Order Inputs -->
+            <div class="col-span-12 lg:col-span-8 flex flex-col gap-md">
+                <!-- Section 1: Supplier & Logistics -->
+                <section class="bg-surface-container-lowest rounded-lg custom-shadow p-md border-l-4 border-primary">
+                    <div class="flex items-center gap-2 mb-md">
+                        <span class="material-symbols-outlined text-primary"
+                              data-icon="local_shipping">local_shipping</span>
+                        <h3 class="text-headline-sm font-headline-sm text-on-surface">Supplier &amp; Logistics</h3>
+                    </div>
+                    <div class="grid grid-cols-2 gap-gutter">
+                        <div class="flex flex-col gap-1">
+                            <label class="text-label-md font-label-md text-on-surface-variant">Select Supplier</label>
+                            <select class="bg-surface border border-outline rounded-lg px-4 py-2 text-body-md focus:ring-2 focus:ring-primary focus:outline-none transition-all">
+                                <option>Select a supplier...</option>
+                                <option>PharmaCorp Logistics</option>
+                                <option>Global Med Supplies</option>
+                                <option>BioHealth Distro</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-label-md font-label-md text-on-surface-variant">Priority Level</label>
+                            <div class="flex gap-2">
+                                <button class="flex-1 py-2 border border-outline rounded-lg text-label-md font-label-md hover:bg-surface-container-high transition-all">
+                                    Standard
+                                </button>
+                                <button class="flex-1 py-2 border-2 border-primary bg-primary-container text-on-primary-container rounded-lg text-label-md font-label-md">
+                                    Urgent
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-span-2 flex flex-col gap-1">
+                            <label class="text-label-md font-label-md text-on-surface-variant">Delivery Address</label>
+                            <textarea
+                                    class="bg-surface border border-outline rounded-lg px-4 py-2 text-body-md focus:ring-2 focus:ring-primary focus:outline-none transition-all"
+                                    placeholder="Central Pharmacy, Block 4, Level 2..." rows="2"></textarea>
+                        </div>
+                    </div>
+                </section>
+                <!-- Section 2: Items Selection -->
+                <section class="bg-surface-container-lowest rounded-lg custom-shadow p-md border-l-4 border-secondary">
+                    <div class="flex justify-between items-center mb-md">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary"
+                                  data-icon="medication">medication</span>
+                            <h3 class="text-headline-sm font-headline-sm text-on-surface">Items Selection</h3>
+                        </div>
+                        <button class="flex items-center gap-1 text-primary hover:bg-primary-container/10 px-3 py-1 rounded-lg transition-colors">
+                            <span class="material-symbols-outlined text-[18px]" data-icon="add_circle">add_circle</span>
+                            <span class="text-label-md font-label-md">Add Manual Entry</span>
+                        </button>
+                    </div>
+                    <!-- Search and Add Bar -->
+                    <div class="relative mb-md">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline"
+                              data-icon="search">search</span>
+                        <input class="w-full bg-surface-container-low border border-outline rounded-lg pl-12 pr-4 py-3 text-body-md focus:ring-2 focus:ring-primary focus:outline-none"
+                               placeholder="Search medicine by name, SKU, or chemical name..." type="text"/>
+                    </div>
+                    <!-- Items Table -->
+                    <div class="overflow-hidden border border-outline-variant rounded-lg">
+                        <table class="w-full text-left">
+                            <thead class="bg-surface-container-high text-label-md font-label-md">
+                            <tr>
+                                <th class="px-4 py-3">Medicine Name</th>
+                                <th class="px-4 py-3">SKU</th>
+                                <th class="px-4 py-3">Quantity</th>
+                                <th class="px-4 py-3 text-right">Unit Price</th>
+                                <th class="px-4 py-3 text-right">Total</th>
+                                <th class="px-4 py-3 w-10"></th>
+                            </tr>
+                            </thead>
+                            <tbody class="text-body-sm bg-white divide-y divide-surface-container-high">
+                            <tr>
+                                <td class="px-4 py-4 font-semibold text-on-surface">Amoxicillin 500mg Caps</td>
+                                <td class="px-4 py-4 text-on-surface-variant">AMX-500-CP</td>
+                                <td class="px-4 py-4">
+                                    <input class="w-20 border border-outline-variant rounded px-2 py-1 focus:ring-1 focus:ring-primary"
+                                           type="number" value="100"/>
+                                </td>
+                                <td class="px-4 py-4 text-right">$0.45</td>
+                                <td class="px-4 py-4 text-right font-medium">$45.00</td>
+                                <td class="px-4 py-4">
+                                    <button class="material-symbols-outlined text-error hover:bg-error-container p-1 rounded transition-colors"
+                                            data-icon="delete">delete
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-4 font-semibold text-on-surface">Lisinopril 10mg Tabs</td>
+                                <td class="px-4 py-4 text-on-surface-variant">LSN-010-TB</td>
+                                <td class="px-4 py-4">
+                                    <input class="w-20 border border-outline-variant rounded px-2 py-1 focus:ring-1 focus:ring-primary"
+                                           type="number" value="500"/>
+                                </td>
+                                <td class="px-4 py-4 text-right">$0.12</td>
+                                <td class="px-4 py-4 text-right font-medium">$60.00</td>
+                                <td class="px-4 py-4">
+                                    <button class="material-symbols-outlined text-error hover:bg-error-container p-1 rounded transition-colors"
+                                            data-icon="delete">delete
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-4 font-semibold text-on-surface">Metformin 850mg</td>
+                                <td class="px-4 py-4 text-on-surface-variant">MET-850-TB</td>
+                                <td class="px-4 py-4">
+                                    <input class="w-20 border border-outline-variant rounded px-2 py-1 focus:ring-1 focus:ring-primary"
+                                           type="number" value="200"/>
+                                </td>
+                                <td class="px-4 py-4 text-right">$0.30</td>
+                                <td class="px-4 py-4 text-right font-medium">$60.00</td>
+                                <td class="px-4 py-4">
+                                    <button class="material-symbols-outlined text-error hover:bg-error-container p-1 rounded transition-colors"
+                                            data-icon="delete">delete
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+            <!-- Right Column: Summary & Actions -->
+            <div class="col-span-12 lg:col-span-4 flex flex-col gap-md">
+                <!-- Order Summary Card -->
+                <section class="bg-surface-container-lowest rounded-lg custom-shadow p-md sticky top-24">
+                    <h3 class="text-headline-sm font-headline-sm text-on-surface mb-md">Order Summary</h3>
+                    <div class="space-y-sm mb-lg">
+                        <div class="flex justify-between items-center text-body-md text-on-surface-variant">
+                            <span>Subtotal (3 items)</span>
+                            <span>$165.00</span>
+                        </div>
+                        <div class="flex justify-between items-center text-body-md text-on-surface-variant">
+                            <span>Shipping Fee</span>
+                            <span class="text-secondary font-medium">FREE</span>
+                        </div>
+                        <div class="flex justify-between items-center text-body-md text-on-surface-variant">
+                            <span>Estimated Tax (5%)</span>
+                            <span>$8.25</span>
+                        </div>
+                        <div class="h-px bg-outline-variant my-2"></div>
+                        <div class="flex justify-between items-center text-headline-sm font-headline-sm text-on-surface">
+                            <span>Total Amount</span>
+                            <span class="text-primary">$173.25</span>
+                        </div>
+                    </div>
+                    <div class="bg-surface-container-low rounded-lg p-4 mb-lg">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-secondary" data-icon="verified">verified</span>
+                            <div>
+                                <p class="text-label-md font-label-md text-on-surface">In-Stock Availability</p>
+                                <p class="text-body-sm text-on-surface-variant">All items are currently available for
+                                    immediate dispatch from PharmaCorp.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <button class="w-full bg-primary text-on-primary py-3 rounded-lg font-label-md text-label-md shadow-md hover:bg-primary-container transition-all active:scale-95">
+                            Submit Purchase Order
+                        </button>
+                        <button class="w-full border border-primary text-primary py-3 rounded-lg font-label-md text-label-md hover:bg-primary-container/10 transition-all">
+                            Save as Draft
+                        </button>
+                        <button class="w-full text-error py-2 font-label-md text-label-md hover:bg-error-container/20 rounded-lg transition-all">
+                            Discard Order
+                        </button>
+                    </div>
+                </section>
+                <!-- Preview Card -->
+                <section
+                        class="bg-surface-container-highest rounded-lg p-md overflow-hidden relative min-h-[200px] flex flex-col justify-end">
+                    <img alt="Modern Pharmaceutical Warehouse"
+                         class="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-multiply"
+                         data-alt="A clean, clinical, and high-tech pharmaceutical warehouse facility with organized stainless steel shelving and bright, cool-toned white lighting. The environment is sterile and professional, with a color palette of deep blues and surgical whites, reflecting a modern healthcare logistics center. High-key lighting creates soft shadows and a sense of vast, efficient space."
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8q2OjQ5XIusd_KEFww_d8SrBTf4gitFDSyL6lm4VUtUhyMJmRSVjNBkfDB6tV-gEHtyIKTzFUtBOXBDojov5-VI4XVV3IFLnsoYU2ee-CsDJi7zL3TT0YCeWggHCdwbbBLxTdm5S1-J8oHISiNjRffVUaImZwU1hpGgXtCLXkVun9LnYIKBbE3ZY_UnJSboZ5xzstxRNbY6lFX-sFE3hlF0W1ig6FwuwNFE-ZXKCvXhEU-Dq-Uf07mqvRLvdIXQlzEJmUgpY4BXp-"/>
+                    <div class="relative z-10">
+                        <p class="text-label-sm font-label-sm text-primary uppercase tracking-wider mb-1">Logistics
+                            Partner</p>
+                        <h4 class="text-headline-sm font-headline-sm text-on-primary-fixed">PharmaCorp Global</h4>
+                        <p class="text-body-sm text-on-surface-variant">Est. Delivery: 24-48 Hours</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
 </body>
 </html>

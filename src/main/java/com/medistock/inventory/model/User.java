@@ -1,5 +1,6 @@
 package com.medistock.inventory.model;
 
+import com.medistock.inventory.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,47 +23,46 @@ import java.time.LocalDateTime;
 
 public class User {
 
-    public enum Role {
-        ADMIN,
-        STAFF
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
-    @Column(nullable = false, length = 50)
+    @Column(name = "username", nullable = false, length = 50)
     private String username;
 
-    @Column(nullable = false, length = 255)
+    @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "full_name", nullable = false, length = 100)
     private String fullName;
 
-    @Column(nullable = false, length = 120)
+    @Column(name = "email", nullable = false, length = 120)
     private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(name = "role", nullable = false, length = 20)
     @Builder.Default
     private Role role = Role.STAFF;
 
-    @Column(nullable = false)
+    @Column(name = "active", nullable = false)
     @Builder.Default
     private Boolean active = true;
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @PrePersist
     protected void onCreate() {
+
         if (createdAt == null) {
             createdAt = LocalDateTime.now();
         }
+
         if (active == null) {
             active = true;
         }
+
         if (role == null) {
             role = Role.STAFF;
         }

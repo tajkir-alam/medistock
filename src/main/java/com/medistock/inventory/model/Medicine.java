@@ -1,5 +1,6 @@
 package com.medistock.inventory.model;
 
+import com.medistock.inventory.model.enums.MedicineCategory;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,8 +11,10 @@ import java.time.LocalDate;
 @Table(
         name = "medicines",
         uniqueConstraints = {
-                @UniqueConstraint(name = "uk_medicines_brand_name", columnNames = "brand_name"),
-                @UniqueConstraint(name = "uk_medicines_sku", columnNames = "sku")
+                @UniqueConstraint(
+                        name = "uk_medicines_sku",
+                        columnNames = "sku"
+                )
         }
 )
 
@@ -28,32 +31,52 @@ public class Medicine {
     @Column(name = "medicine_id")
     private Long id;
 
-    @Column(name = "brand_name", nullable = false, length = 100)
-    private String brandName;
+    @Column(name = "medicine_name", nullable = false, length = 120)
+    private String medicineName;
 
-    @Column(name = "generic_name", nullable = false, length = 50)
+    @Column(name = "generic_name", length = 120)
     private String genericName;
 
     @Column(name = "sku", nullable = false, length = 50)
     private String sku;
 
-    @Column(name = "unit_type", nullable = false, length = 30)
-    private String unitType;
+    @Column(name = "batch_id", length = 50)
+    private String batchId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category", nullable = false, length = 50)
+    private MedicineCategory category;
+
+    @ManyToOne
+    @JoinColumn(name = "supplier_id", nullable = false)
+    private Supplier supplier;
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
     @Column(name = "low_stock_threshold", nullable = false)
-    private Integer lowStockThreshold;
+    @Builder.Default
+    private Integer lowStockThreshold = 10;
 
-    @Column(name = "buying_price", nullable = false, precision = 10, scale = 2)
-    private BigDecimal buyingPrice;
+    @Column(name = "unit_type", nullable = false, length = 30)
+    private String unitType;
 
-    @Column(name = "selling_price", nullable = false, precision = 10, scale = 2)
-    private BigDecimal sellingPrice;
+    @Column(
+            name = "unit_price",
+            nullable = false,
+            precision = 10,
+            scale = 2
+    )
+    private BigDecimal unitPrice;
 
     @Column(name = "expiry_date", nullable = false)
     private LocalDate expiryDate;
+
+    @Column(name = "storage_instructions", length = 500)
+    private String storageInstructions;
+
+    @Column(name = "dosage_notes", length = 500)
+    private String dosageNotes;
 
     @Column(name = "active", nullable = false)
     @Builder.Default

@@ -43,10 +43,10 @@ public class MedicineController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/supplier/{supplierId}")
-    public List<Medicine> getMedicinesBySupplier(@PathVariable @NonNull Long supplierId) {
-        return medicineService.findBySupplierId(supplierId);
-    }
+//    @GetMapping("/supplier/{supplierId}")
+//    public List<Medicine> getMedicinesBySupplier(@PathVariable @NonNull Long supplierId) {
+//        return medicineService.findBySupplierId(supplierId);
+//    }
 
     @GetMapping("/category/{category}")
     public List<Medicine> getMedicinesByCategory(@PathVariable MedicineCategory category) {

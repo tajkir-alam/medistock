@@ -1,328 +1,584 @@
 <!DOCTYPE html>
 
-<html class="light" lang="en">
+<html lang="en"
+      class="light"
+      xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+
     <title>Add New Medicine | MediStock</title>
+
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-          rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-          rel="stylesheet"/>
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"/>
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+            rel="stylesheet"/>
+
     <script id="tailwind-config">
         tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "on-secondary": "#ffffff",
-                      "surface-container": "#edeeef",
-                      "on-tertiary-fixed": "#141d23",
-                      "surface-tint": "#115cb9",
-                      "secondary-fixed": "#67fcc6",
-                      "inverse-primary": "#acc7ff",
-                      "secondary-fixed-dim": "#44dfab",
-                      "tertiary-container": "#515a62",
-                      "on-surface": "#191c1d",
-                      "inverse-surface": "#2e3132",
-                      "surface-variant": "#e1e3e4",
-                      "primary-fixed": "#d7e2ff",
-                      "surface-container-highest": "#e1e3e4",
-                      "primary-fixed-dim": "#acc7ff",
-                      "on-primary-fixed": "#001a40",
-                      "surface-container-lowest": "#ffffff",
-                      "background": "#f8f9fa",
-                      "tertiary-fixed-dim": "#bfc8d0",
-                      "surface-bright": "#f8f9fa",
-                      "surface": "#f8f9fa",
-                      "on-secondary-fixed-variant": "#00513a",
-                      "outline-variant": "#c2c6d4",
-                      "on-error-container": "#93000a",
-                      "secondary-container": "#67fcc6",
-                      "on-secondary-fixed": "#002116",
-                      "on-primary": "#ffffff",
-                      "on-surface-variant": "#424752",
-                      "on-secondary-container": "#007354",
-                      "on-tertiary": "#ffffff",
-                      "surface-container-low": "#f3f4f5",
-                      "inverse-on-surface": "#f0f1f2",
-                      "on-primary-fixed-variant": "#004491",
-                      "tertiary-fixed": "#dbe4ed",
-                      "outline": "#727784",
-                      "on-tertiary-container": "#c8d1da",
-                      "surface-container-high": "#e7e8e9",
-                      "error": "#ba1a1a",
-                      "primary-container": "#0056b3",
-                      "primary": "#003f87",
-                      "on-tertiary-fixed-variant": "#3f484f",
-                      "on-error": "#ffffff",
-                      "on-background": "#191c1d",
-                      "secondary": "#006c4f",
-                      "error-container": "#ffdad6",
-                      "on-primary-container": "#bbd0ff",
-                      "surface-dim": "#d9dadb",
-                      "tertiary": "#3a434a"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.25rem",
-                      "lg": "0.5rem",
-                      "xl": "0.75rem",
-                      "full": "9999px"
-              },
-              "spacing": {
-                      "sm": "12px",
-                      "base": "8px",
-                      "md": "24px",
-                      "margin-desktop": "32px",
-                      "lg": "48px",
-                      "xl": "64px",
-                      "gutter": "16px",
-                      "margin-mobile": "16px",
-                      "xs": "4px"
-              },
-              "fontFamily": {
-                      "headline-lg": ["Inter"],
-                      "headline-md": ["Inter"],
-                      "headline-sm": ["Inter"],
-                      "label-md": ["Inter"],
-                      "label-sm": ["Inter"],
-                      "body-md": ["Inter"],
-                      "body-lg": ["Inter"],
-                      "body-sm": ["Inter"]
-              },
-              "fontSize": {
-                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
-                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
-                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
-                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
-                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
-                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
-              }
-            },
-          },
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#edeeef",
+                        "on-tertiary-fixed": "#141d23",
+                        "surface-tint": "#115cb9",
+                        "secondary-fixed": "#67fcc6",
+                        "inverse-primary": "#acc7ff",
+                        "secondary-fixed-dim": "#44dfab",
+                        "tertiary-container": "#515a62",
+                        "on-surface": "#191c1d",
+                        "inverse-surface": "#2e3132",
+                        "surface-variant": "#e1e3e4",
+                        "primary-fixed": "#d7e2ff",
+                        "surface-container-highest": "#e1e3e4",
+                        "primary-fixed-dim": "#acc7ff",
+                        "on-primary-fixed": "#001a40",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#f8f9fa",
+                        "tertiary-fixed-dim": "#bfc8d0",
+                        "surface-bright": "#f8f9fa",
+                        "surface": "#f8f9fa",
+                        "on-secondary-fixed-variant": "#00513a",
+                        "outline-variant": "#c2c6d4",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#67fcc6",
+                        "on-secondary-fixed": "#002116",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#424752",
+                        "on-secondary-container": "#007354",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#f3f4f5",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-primary-fixed-variant": "#004491",
+                        "tertiary-fixed": "#dbe4ed",
+                        "outline": "#727784",
+                        "on-tertiary-container": "#c8d1da",
+                        "surface-container-high": "#e7e8e9",
+                        "error": "#ba1a1a",
+                        "primary-container": "#0056b3",
+                        "primary": "#003f87",
+                        "on-tertiary-fixed-variant": "#3f484f",
+                        "on-error": "#ffffff",
+                        "on-background": "#191c1d",
+                        "secondary": "#006c4f",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#bbd0ff",
+                        "surface-dim": "#d9dadb",
+                        "tertiary": "#3a434a"
+                    },
+
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+
+                    spacing: {
+                        "sm": "12px",
+                        "base": "8px",
+                        "md": "24px",
+                        "margin-desktop": "32px",
+                        "lg": "48px",
+                        "xl": "64px",
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "xs": "4px"
+                    }
+                }
+            }
         }
     </script>
+
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
         .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-variation-settings:
+                    'FILL' 0,
+                    'wght' 400,
+                    'GRAD' 0,
+                    'opsz' 24;
+
             vertical-align: middle;
         }
-        .custom-shadow { box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); }
+
+        .custom-shadow {
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+        }
     </style>
 </head>
+
 <body class="bg-background text-on-background min-h-screen flex">
-<!-- SideNavBar Anchor -->
+
+<!-- ================= SIDEBAR ================= -->
+
 <aside class="h-screen w-64 fixed left-0 top-0 z-50 bg-surface-container-lowest border-r border-outline-variant flex flex-col p-4 gap-y-base shadow-md">
+
     <div class="mb-lg px-4">
-        <h1 class="text-headline-sm font-headline-sm font-bold text-primary">MediStock Pro</h1>
-        <p class="text-body-sm font-body-sm text-on-surface-variant">Central Pharmacy</p>
+        <h1 class="text-headline-sm font-bold text-primary">
+            MediStock Pro
+        </h1>
+
+        <p class="text-body-sm text-on-surface-variant">
+            Central Pharmacy
+        </p>
     </div>
+
     <nav class="flex-grow flex flex-col gap-y-xs">
-        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
-           href="#">
-            <span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
-            <span class="text-label-md font-label-md">Dashboard</span>
+
+        <a th:href="@{/dashboard}"
+           class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg">
+
+            <span class="material-symbols-outlined mr-3">
+                dashboard
+            </span>
+
+            <span class="text-label-md">
+                Dashboard
+            </span>
         </a>
-        <a class="bg-primary-container text-on-primary-container font-semibold rounded-lg flex items-center px-4 py-3 scale-95 transition-transform"
-           href="#">
-            <span class="material-symbols-outlined mr-3" data-icon="inventory_2">inventory_2</span>
-            <span class="text-label-md font-label-md">Inventory</span>
+
+        <a th:href="@{/medicines}"
+           class="bg-primary-container text-on-primary-container font-semibold rounded-lg flex items-center px-4 py-3">
+
+            <span class="material-symbols-outlined mr-3">
+                inventory_2
+            </span>
+
+            <span class="text-label-md">
+                Inventory
+            </span>
         </a>
-        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
-           href="#">
-            <span class="material-symbols-outlined mr-3" data-icon="receipt_long">receipt_long</span>
-            <span class="text-label-md font-label-md">Orders</span>
+
+        <a th:href="@{/orders}"
+           class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg">
+
+            <span class="material-symbols-outlined mr-3">
+                receipt_long
+            </span>
+
+            <span class="text-label-md">
+                Orders
+            </span>
         </a>
-        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
-           href="#">
-            <span class="material-symbols-outlined mr-3" data-icon="local_shipping">local_shipping</span>
-            <span class="text-label-md font-label-md">Suppliers</span>
+
+        <a th:href="@{/suppliers}"
+           class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg">
+
+            <span class="material-symbols-outlined mr-3">
+                local_shipping
+            </span>
+
+            <span class="text-label-md">
+                Suppliers
+            </span>
         </a>
-        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
-           href="/analytics">
-            <span class="material-symbols-outlined mr-3" data-icon="analytics">analytics</span>
-            <span class="text-label-md font-label-md">Analytics</span>
+
+        <a th:href="@{/reports}"
+           class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg">
+
+            <span class="material-symbols-outlined mr-3">
+                analytics
+            </span>
+
+            <span class="text-label-md">
+                Reports
+            </span>
         </a>
+
     </nav>
-    <div class="mt-auto border-t border-outline-variant pt-4 flex flex-col gap-y-xs">
-        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
-           href="#">
-            <span class="material-symbols-outlined mr-3" data-icon="settings">settings</span>
-            <span class="text-label-md font-label-md">Settings</span>
-        </a>
-        <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
-           href="#">
-            <span class="material-symbols-outlined mr-3" data-icon="help">help</span>
-            <span class="text-label-md font-label-md">Support</span>
-        </a>
-        <div class="flex items-center gap-3 px-4 py-3 mt-4 bg-surface-container-low rounded-lg">
-            <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-xs">
-                JD
-            </div>
-            <div class="overflow-hidden">
-                <p class="text-label-md font-label-md truncate">John Doe</p>
-                <p class="text-body-sm font-body-sm text-on-surface-variant truncate">Chief Pharmacist</p>
-            </div>
-        </div>
-    </div>
+
 </aside>
-<!-- Main Content Area -->
+
+<!-- ================= MAIN CONTENT ================= -->
+
 <main class="ml-64 flex-grow min-h-screen">
-    <!-- TopNavBar Anchor -->
+
+    <!-- ================= HEADER ================= -->
+
     <header class="flex justify-between items-center w-full px-margin-desktop sticky top-0 z-40 bg-surface h-16 border-b border-outline-variant shadow-sm">
+
         <div class="flex items-center gap-4">
-            <a href="/inventory" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors">
-                <span class="material-symbols-outlined text-on-surface-variant" data-icon="arrow_back">arrow_back</span>
+
+            <a th:href="@{/medicines}"
+               class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low">
+
+                <span class="material-symbols-outlined text-on-surface-variant">
+                    arrow_back
+                </span>
             </a>
-            <h2 class="text-headline-sm font-headline-sm font-bold text-primary">Add New Medicine</h2>
+
+            <h2 class="text-headline-sm font-bold text-primary">
+                Add New Medicine
+            </h2>
+
         </div>
-        <div class="flex items-center gap-4">
-            <div class="relative hidden lg:block">
-                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant"
-                      data-icon="search">search</span>
-                <input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full w-64 text-body-sm focus:ring-2 focus:ring-primary"
-                       placeholder="Global search..." type="text"/>
-            </div>
-            <button class="material-symbols-outlined text-on-surface-variant p-2 hover:bg-surface-container-low rounded-full"
-                    data-icon="notifications">notifications
-            </button>
-            <button class="material-symbols-outlined text-on-surface-variant p-2 hover:bg-surface-container-low rounded-full"
-                    data-icon="account_circle">account_circle
-            </button>
-        </div>
+
     </header>
+
+    <!-- ================= PAGE BODY ================= -->
+
     <div class="p-margin-desktop max-w-5xl mx-auto">
+
+        <!-- SUCCESS MESSAGE -->
+
+        <div th:if="${successMessage}"
+             class="mb-6 bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded-lg">
+
+            <p th:text="${successMessage}"></p>
+
+        </div>
+
+        <!-- ERROR MESSAGE -->
+
+        <div th:if="${errorMessage}"
+             class="mb-6 bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
+
+            <p th:text="${errorMessage}"></p>
+
+        </div>
+
+        <!-- ================= FORM CARD ================= -->
+
         <div class="bg-surface-container-lowest rounded-lg custom-shadow border border-outline-variant overflow-hidden flex flex-col md:flex-row">
-            <!-- Visual Indicator Bar (Teal for New) -->
+
             <div class="w-1 bg-secondary-container"></div>
-            <form class="p-md w-full grid grid-cols-1 md:grid-cols-2 gap-md">
+
+            <form
+                    th:action="@{/medicines/save}"
+                    th:object="${medicine}"
+                    method="post"
+                    class="p-md w-full grid grid-cols-1 md:grid-cols-2 gap-md">
+
+                <!-- TITLE -->
+
                 <div class="md:col-span-2">
-                    <h3 class="text-headline-sm font-headline-sm text-on-surface mb-2">Medicine Information</h3>
-                    <p class="text-body-sm text-on-surface-variant">Please fill in the medical details accurately to
-                        maintain regulatory compliance.</p>
+
+                    <h3 class="text-headline-sm text-on-surface mb-2">
+                        Medicine Information
+                    </h3>
+
+                    <p class="text-body-sm text-on-surface-variant">
+                        Fill all medicine details correctly.
+                    </p>
+
                 </div>
-                <!-- Medicine Name -->
+
+                <!-- MEDICINE NAME -->
+
                 <div class="flex flex-col gap-xs">
-                    <label class="text-label-md font-label-md text-on-surface-variant">Medicine Name</label>
-                    <input class="border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
-                           placeholder="e.g. Amoxicillin 500mg" type="text"/>
+
+                    <label class="text-label-md text-on-surface-variant">
+                        Medicine Name
+                    </label>
+
+                    <input
+                            th:field="*{medicineName}"
+                            type="text"
+                            placeholder="e.g. Napa Extra"
+                            class="border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary outline-none"/>
+
                 </div>
-                <!-- SKU/Batch ID (Read-only/Placeholder) -->
+
+                <!-- SKU -->
+
                 <div class="flex flex-col gap-xs">
-                    <label class="text-label-md font-label-md text-on-surface-variant">SKU / Batch ID</label>
-                    <div class="flex">
-                        <input class="bg-surface-container-low border border-outline-variant rounded-l-lg px-4 py-2 w-full text-on-surface-variant cursor-not-allowed"
-                               readonly="" type="text" value="AUTO-2023-9X-442"/>
-                        <button class="bg-surface-container-high border-y border-r border-outline-variant rounded-r-lg px-3 flex items-center"
-                                type="button">
-                            <span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="refresh">refresh</span>
-                        </button>
-                    </div>
+
+                    <label class="text-label-md text-on-surface-variant">
+                        SKU / Batch ID
+                    </label>
+
+                    <input
+                            th:field="*{sku}"
+                            type="text"
+                            placeholder="e.g. MED-1001"
+                            class="border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary outline-none"/>
+
                 </div>
-                <!-- Category -->
+
+                <!-- CATEGORY -->
+
                 <div class="flex flex-col gap-xs">
-                    <label class="text-label-md font-label-md text-on-surface-variant">Category</label>
-                    <select class="border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all appearance-none bg-white">
-                        <option>Antibiotics</option>
-                        <option>Analgesics</option>
-                        <option>Antivirals</option>
-                        <option>Cardiovascular</option>
-                        <option>Dermatological</option>
+
+                    <label class="text-label-md text-on-surface-variant">
+                        Category
+                    </label>
+
+                    <select
+                            th:field="*{category}"
+                            class="border border-outline-variant rounded-lg px-4 py-2 bg-white focus:ring-2 focus:ring-primary outline-none">
+
+                        <option value="">Select Category</option>
+
+                        <option
+                                th:each="category : ${categories}"
+                                th:value="${category}"
+                                th:text="${category}">
+                        </option>
+
                     </select>
+
                 </div>
-                <!-- Manufacturer -->
+
+                <!-- SUPPLIER -->
+
                 <div class="flex flex-col gap-xs">
-                    <label class="text-label-md font-label-md text-on-surface-variant">Manufacturer / Supplier</label>
-                    <select class="border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all appearance-none bg-white">
-                        <option>Pfizer Pharmaceuticals</option>
-                        <option>GlaxoSmithKline</option>
-                        <option>Novartis</option>
-                        <option>Local Compounding Lab</option>
+
+                    <label class="text-label-md text-on-surface-variant">
+                        Supplier
+                    </label>
+
+                    <select
+                            th:field="*{supplier}"
+                            class="border border-outline-variant rounded-lg px-4 py-2 bg-white focus:ring-2 focus:ring-primary outline-none">
+
+                        <option value="">Select Supplier</option>
+
+                        <option
+                                th:each="supplier : ${suppliers}"
+                                th:value="${supplier.id}"
+                                th:text="${supplier.supplierName}">
+                        </option>
+
                     </select>
+
                 </div>
-                <!-- Quantity & Price Section -->
-                <div class="grid grid-cols-2 gap-gutter md:col-span-1">
-                    <div class="flex flex-col gap-xs">
-                        <label class="text-label-md font-label-md text-on-surface-variant">Initial Quantity</label>
-                        <input class="border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none"
-                               placeholder="0" type="number"/>
-                    </div>
-                    <div class="flex flex-col gap-xs">
-                        <label class="text-label-md font-label-md text-on-surface-variant">Unit Price ($)</label>
-                        <input class="border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none"
-                               placeholder="0.00" type="text"/>
-                    </div>
-                </div>
-                <!-- Expiry Date -->
+
+                <!-- QUANTITY -->
+
                 <div class="flex flex-col gap-xs">
-                    <label class="text-label-md font-label-md text-on-surface-variant">Expiry Date</label>
-                    <div class="relative">
-                        <input class="border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none w-full bg-white"
-                               type="date"/>
-                    </div>
+
+                    <label class="text-label-md text-on-surface-variant">
+                        Initial Quantity
+                    </label>
+
+                    <input
+                            th:field="*{quantity}"
+                            type="number"
+                            min="0"
+                            placeholder="0"
+                            class="border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary outline-none"/>
+
                 </div>
-                <!-- Storage Instructions -->
+
+                <!-- UNIT PRICE -->
+
+                <div class="flex flex-col gap-xs">
+
+                    <label class="text-label-md text-on-surface-variant">
+                        Unit Price
+                    </label>
+
+                    <input
+                            th:field="*{unitPrice}"
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            placeholder="0.00"
+                            class="border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary outline-none"/>
+
+                </div>
+
+                <!-- EXPIRY DATE -->
+
+                <div class="flex flex-col gap-xs">
+
+                    <label class="text-label-md text-on-surface-variant">
+                        Expiry Date
+                    </label>
+
+                    <input
+                            th:field="*{expiryDate}"
+                            type="date"
+                            class="border border-outline-variant rounded-lg px-4 py-2 bg-white focus:ring-2 focus:ring-primary outline-none"/>
+
+                </div>
+
+                <!-- LOW STOCK ALERT -->
+
+                <div class="flex flex-col gap-xs">
+
+                    <label class="text-label-md text-on-surface-variant">
+                        Low Stock Alert Threshold
+                    </label>
+
+                    <input
+                            th:field="*{lowStockThreshold}"
+                            type="number"
+                            min="1"
+                            placeholder="10"
+                            class="border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary outline-none"/>
+
+                </div>
+
+                <!-- UNIT TYPE -->
+
+                <div class="flex flex-col gap-xs">
+
+                    <label class="text-label-md text-on-surface-variant">
+                        Unit Type
+                    </label>
+
+                    <input
+                            th:field="*{unitType}"
+                            type="text"
+                            placeholder="Tablet / Bottle / Strip"
+                            class="border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary outline-none"/>
+
+                </div>
+
+                <!-- STORAGE -->
+
                 <div class="md:col-span-2 flex flex-col gap-xs">
-                    <label class="text-label-md font-label-md text-on-surface-variant">Storage Instructions or Dosage
-                        Notes</label>
+
+                    <label class="text-label-md text-on-surface-variant">
+                        Storage Instructions / Dosage Notes
+                    </label>
+
                     <textarea
-                            class="border border-outline-variant rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary focus:border-primary outline-none resize-none"
-                            placeholder="Enter specific storage requirements (e.g., 'Refrigerate between 2-8°C') or common dosage protocols..."
-                            rows="4"></textarea>
+                            th:field="*{storageInstructions}"
+                            rows="4"
+                            placeholder="Store below 25°C..."
+                            class="border border-outline-variant rounded-lg px-4 py-2 resize-none focus:ring-2 focus:ring-primary outline-none"></textarea>
+
                 </div>
-                <!-- Action Buttons -->
+
+                <!-- ACTIVE STATUS -->
+
+                <div class="md:col-span-2 flex items-center gap-3">
+
+                    <input
+                            th:field="*{active}"
+                            type="checkbox"
+                            class="rounded border-outline"/>
+
+                    <label class="text-label-md text-on-surface">
+                        Medicine Active
+                    </label>
+
+                </div>
+
+                <!-- ACTION BUTTONS -->
+
                 <div class="md:col-span-2 border-t border-outline-variant pt-md flex items-center justify-end gap-md">
-                    <button class="px-6 py-2 border border-outline text-on-surface hover:bg-surface-container-high rounded-lg font-label-md transition-colors"
-                            type="button">
+
+                    <a th:href="@{/medicines}"
+                       class="px-6 py-2 border border-outline rounded-lg text-on-surface hover:bg-surface-container-high">
+
                         Cancel
-                    </button>
-                    <button class="px-6 py-2 bg-primary text-on-primary hover:bg-primary-container rounded-lg font-label-md shadow-sm transition-all flex items-center gap-2"
-                            type="submit">
-                        <span class="material-symbols-outlined text-sm" data-icon="save">save</span>
+
+                    </a>
+
+                    <button
+                            type="submit"
+                            class="px-6 py-2 bg-primary text-on-primary rounded-lg hover:bg-primary-container flex items-center gap-2">
+
+                        <span class="material-symbols-outlined text-sm">
+                            save
+                        </span>
+
                         Save Medicine
+
                     </button>
+
                 </div>
+
             </form>
+
         </div>
-        <!-- Contextual Info Cards (Bento style) -->
+
+        <!-- ================= INFO CARDS ================= -->
+
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-md mt-md">
+
             <div class="bg-surface-container-high p-4 rounded-lg flex items-start gap-4">
+
                 <div class="bg-primary-container/20 p-2 rounded-lg">
-                    <span class="material-symbols-outlined text-primary" data-icon="verified_user">verified_user</span>
+
+                    <span class="material-symbols-outlined text-primary">
+                        verified_user
+                    </span>
+
                 </div>
+
                 <div>
-                    <p class="text-label-md font-label-md text-primary">Compliance Check</p>
-                    <p class="text-body-sm text-on-surface-variant">This entry will be logged for FDA audit trail
-                        requirements.</p>
+
+                    <p class="text-label-md text-primary">
+                        Compliance Check
+                    </p>
+
+                    <p class="text-body-sm text-on-surface-variant">
+                        Medicine data will be securely stored.
+                    </p>
+
                 </div>
+
             </div>
+
             <div class="bg-surface-container-high p-4 rounded-lg flex items-start gap-4">
+
                 <div class="bg-secondary-container/20 p-2 rounded-lg">
-                    <span class="material-symbols-outlined text-secondary" data-icon="barcode">barcode</span>
+
+                    <span class="material-symbols-outlined text-secondary">
+                        barcode
+                    </span>
+
                 </div>
+
                 <div>
-                    <p class="text-label-md font-label-md text-secondary">Label Printing</p>
-                    <p class="text-body-sm text-on-surface-variant">Print SKU labels immediately after saving the
-                        record.</p>
+
+                    <p class="text-label-md text-secondary">
+                        SKU Tracking
+                    </p>
+
+                    <p class="text-body-sm text-on-surface-variant">
+                        SKU helps inventory tracking and reporting.
+                    </p>
+
                 </div>
+
             </div>
+
             <div class="bg-surface-container-high p-4 rounded-lg flex items-start gap-4">
+
                 <div class="bg-tertiary-container/20 p-2 rounded-lg">
-                    <span class="material-symbols-outlined text-tertiary" data-icon="notifications_active">notifications_active</span>
+
+                    <span class="material-symbols-outlined text-tertiary">
+                        notifications_active
+                    </span>
+
                 </div>
+
                 <div>
-                    <p class="text-label-md font-label-md text-tertiary">Inventory Alerts</p>
-                    <p class="text-body-sm text-on-surface-variant">Low stock notifications will be enabled
-                        automatically.</p>
+
+                    <p class="text-label-md text-tertiary">
+                        Low Stock Alerts
+                    </p>
+
+                    <p class="text-body-sm text-on-surface-variant">
+                        Alerts will trigger automatically when stock becomes low.
+                    </p>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 </main>
+
 </body>
 </html>

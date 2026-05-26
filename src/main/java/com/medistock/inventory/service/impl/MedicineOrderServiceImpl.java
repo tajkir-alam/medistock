@@ -12,14 +12,16 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-
 public class MedicineOrderServiceImpl
         implements MedicineOrderService {
 
-    private final MedicineOrderRepository orderRepository;
+    private final MedicineOrderRepository
+            orderRepository;
 
     @Override
-    public MedicineOrder saveOrder(MedicineOrder order) {
+    public MedicineOrder saveOrder(
+            MedicineOrder order
+    ) {
 
         return orderRepository.save(order);
     }
@@ -31,7 +33,9 @@ public class MedicineOrderServiceImpl
     }
 
     @Override
-    public Optional<MedicineOrder> getOrderById(Long id) {
+    public Optional<MedicineOrder> getOrderById(
+            Long id
+    ) {
 
         return orderRepository.findById(id);
     }
@@ -42,6 +46,54 @@ public class MedicineOrderServiceImpl
     ) {
 
         return orderRepository.findByStatus(status);
+    }
+
+    @Override
+    public List<MedicineOrder> getOrdersBySupplierId(
+            Long supplierId
+    ) {
+
+        return orderRepository.findBySupplierId(
+                supplierId
+        );
+    }
+
+    @Override
+    public MedicineOrder updateOrder(
+            Long id,
+            MedicineOrder medicineOrder
+    ) {
+
+        MedicineOrder existingOrder =
+                orderRepository.findById(id)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Order not found"
+                                ));
+
+        existingOrder.setSupplier(
+                medicineOrder.getSupplier()
+        );
+
+        existingOrder.setEstimatedDelivery(
+                medicineOrder.getEstimatedDelivery()
+        );
+
+        existingOrder.setTotalAmount(
+                medicineOrder.getTotalAmount()
+        );
+
+        existingOrder.setStatus(
+                medicineOrder.getStatus()
+        );
+
+        existingOrder.setOrderItems(
+                medicineOrder.getOrderItems()
+        );
+
+        return orderRepository.save(
+                existingOrder
+        );
     }
 
     @Override

@@ -1,55 +1,23 @@
 package com.medistock.inventory.service;
 
 import com.medistock.inventory.model.OrderItem;
-import com.medistock.inventory.repository.OrderItemRepository;
-import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Objects;
 
-@Service
-@Transactional
-public class OrderItemService {
+public interface OrderItemService {
 
-    private final OrderItemRepository orderItemRepository;
+    List<OrderItem> findAll();
 
-    public OrderItemService(OrderItemRepository orderItemRepository) {
-        this.orderItemRepository = orderItemRepository;
-    }
+    Optional<OrderItem> findById(Long id);
 
-    @Transactional(readOnly = true)
-    public List<OrderItem> findAll() {
-        return orderItemRepository.findAll();
-    }
+    List<OrderItem> findByMedicineOrderId(Long orderId);
 
-    @Transactional(readOnly = true)
-    public Optional<OrderItem> findById(@NonNull Long id) {
-        return orderItemRepository.findById(id);
-    }
+    List<OrderItem> findByMedicineId(Long medicineId);
 
-    @Transactional(readOnly = true)
-    public List<OrderItem> findByMedicineOrderId(@NonNull Long orderId) {
-        return orderItemRepository.findByMedicineOrderId(orderId);
-    }
+    OrderItem save(OrderItem orderItem);
 
-    @Transactional(readOnly = true)
-    public List<OrderItem> findByMedicineId(@NonNull Long medicineId) {
-        return orderItemRepository.findByMedicineId(medicineId);
-    }
+    void deleteById(Long id);
 
-    public OrderItem save(@NonNull OrderItem orderItem) {
-        return orderItemRepository.save(Objects.requireNonNull(orderItem, "orderItem must not be null"));
-    }
-
-    public void deleteById(@NonNull Long id) {
-        orderItemRepository.deleteById(id);
-    }
-
-    @Transactional(readOnly = true)
-    public boolean existsById(@NonNull Long id) {
-        return orderItemRepository.existsById(id);
-    }
+    boolean existsById(Long id);
 }

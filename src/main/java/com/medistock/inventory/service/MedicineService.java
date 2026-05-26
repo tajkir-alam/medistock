@@ -26,7 +26,10 @@ public interface MedicineService {
 
     List<Medicine> getExpiredMedicines();
 
-    Medicine updateMedicine(Long id, Medicine medicine);
+    Medicine updateMedicine(
+            Long id,
+            Medicine medicine
+    );
 
     void deleteMedicine(Long id);
 }

@@ -9,7 +9,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface MedicineRepository extends JpaRepository<Medicine, Long> {
+public interface MedicineRepository
+        extends JpaRepository<Medicine, Long> {
 
     Optional<Medicine> findBySku(String sku);
 
@@ -17,13 +18,23 @@ public interface MedicineRepository extends JpaRepository<Medicine, Long> {
 
     boolean existsBySku(String sku);
 
-    List<Medicine> findByCategory(MedicineCategory category);
+    List<Medicine> findByCategory(
+            MedicineCategory category
+    );
 
-    List<Medicine> findBySupplier(Supplier supplier);
+    List<Medicine> findBySupplier(
+            Supplier supplier
+    );
 
-    List<Medicine> findByQuantityLessThanEqual(Integer quantity);
+    List<Medicine> findByQuantityLessThanEqual(
+            Integer quantity
+    );
 
-    List<Medicine> findByExpiryDateBefore(LocalDate date);
+    List<Medicine> findByExpiryDateBefore(
+            LocalDate date
+    );
 
-    List<Medicine> findByMedicineNameContainingIgnoreCase(String keyword);
+    List<Medicine> findByMedicineNameContainingIgnoreCase(
+            String keyword
+    );
 }

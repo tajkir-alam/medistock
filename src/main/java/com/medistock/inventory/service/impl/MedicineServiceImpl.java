@@ -13,7 +13,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-
 public class MedicineServiceImpl implements MedicineService {
 
     private final MedicineRepository medicineRepository;
@@ -83,12 +82,36 @@ public class MedicineServiceImpl implements MedicineService {
                 medicine.getMedicineName()
         );
 
+        existingMedicine.setGenericName(
+                medicine.getGenericName()
+        );
+
+        existingMedicine.setSku(
+                medicine.getSku()
+        );
+
+        existingMedicine.setBatchId(
+                medicine.getBatchId()
+        );
+
         existingMedicine.setCategory(
                 medicine.getCategory()
         );
 
+        existingMedicine.setSupplier(
+                medicine.getSupplier()
+        );
+
         existingMedicine.setQuantity(
                 medicine.getQuantity()
+        );
+
+        existingMedicine.setLowStockThreshold(
+                medicine.getLowStockThreshold()
+        );
+
+        existingMedicine.setUnitType(
+                medicine.getUnitType()
         );
 
         existingMedicine.setUnitPrice(
@@ -97,6 +120,18 @@ public class MedicineServiceImpl implements MedicineService {
 
         existingMedicine.setExpiryDate(
                 medicine.getExpiryDate()
+        );
+
+        existingMedicine.setStorageInstructions(
+                medicine.getStorageInstructions()
+        );
+
+        existingMedicine.setDosageNotes(
+                medicine.getDosageNotes()
+        );
+
+        existingMedicine.setActive(
+                medicine.getActive()
         );
 
         return medicineRepository.save(existingMedicine);

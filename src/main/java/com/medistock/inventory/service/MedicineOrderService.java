@@ -8,14 +8,27 @@ import java.util.Optional;
 
 public interface MedicineOrderService {
 
-    MedicineOrder saveOrder(MedicineOrder order);
+    MedicineOrder saveOrder(
+            MedicineOrder order
+    );
 
     List<MedicineOrder> getAllOrders();
 
-    Optional<MedicineOrder> getOrderById(Long id);
+    Optional<MedicineOrder> getOrderById(
+            Long id
+    );
 
     List<MedicineOrder> getOrdersByStatus(
             OrderStatus status
+    );
+
+    List<MedicineOrder> getOrdersBySupplierId(
+            Long supplierId
+    );
+
+    MedicineOrder updateOrder(
+            Long id,
+            MedicineOrder medicineOrder
     );
 
     void deleteOrder(Long id);

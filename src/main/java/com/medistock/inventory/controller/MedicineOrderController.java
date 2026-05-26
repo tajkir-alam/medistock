@@ -13,56 +13,92 @@ import java.util.List;
 @RequestMapping("/api/orders")
 public class MedicineOrderController {
 
-    private final MedicineOrderService medicineOrderService;
+    private final MedicineOrderService
+            medicineOrderService;
 
-    public MedicineOrderController(MedicineOrderService medicineOrderService) {
-        this.medicineOrderService = medicineOrderService;
+    public MedicineOrderController(
+            MedicineOrderService medicineOrderService
+    ) {
+
+        this.medicineOrderService =
+                medicineOrderService;
     }
 
     @GetMapping
     public List<MedicineOrder> getAllOrders() {
-        return medicineOrderService.findAll();
+
+        return medicineOrderService
+                .getAllOrders();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MedicineOrder> getOrderById(@PathVariable @NonNull Long id) {
-        return medicineOrderService.findById(id)
+    public ResponseEntity<MedicineOrder>
+    getOrderById(
+            @PathVariable @NonNull Long id
+    ) {
+
+        return medicineOrderService
+                .getOrderById(id)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseGet(() ->
+                        ResponseEntity.notFound()
+                                .build());
     }
 
     @GetMapping("/supplier/{supplierId}")
-    public List<MedicineOrder> getOrdersBySupplier(@PathVariable @NonNull Long supplierId) {
-        return medicineOrderService.findBySupplierId(supplierId);
+    public List<MedicineOrder>
+    getOrdersBySupplier(
+            @PathVariable @NonNull Long supplierId
+    ) {
+
+        return medicineOrderService
+                .getOrdersBySupplierId(
+                        supplierId
+                );
     }
 
     @GetMapping("/status/{status}")
-    public List<MedicineOrder> getOrdersByStatus(@PathVariable OrderStatus status) {
-        return medicineOrderService.findByStatus(status);
+    public List<MedicineOrder>
+    getOrdersByStatus(
+            @PathVariable OrderStatus status
+    ) {
+
+        return medicineOrderService
+                .getOrdersByStatus(status);
     }
 
     @PostMapping
-    public MedicineOrder createOrder(@RequestBody MedicineOrder medicineOrder) {
-        return medicineOrderService.save(medicineOrder);
+    public MedicineOrder createOrder(
+            @RequestBody MedicineOrder medicineOrder
+    ) {
+
+        return medicineOrderService
+                .saveOrder(medicineOrder);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MedicineOrder> updateOrder(@PathVariable @NonNull Long id, @RequestBody MedicineOrder medicineOrder) {
-        return medicineOrderService.findById(id)
-                .map(existing -> {
-                    medicineOrder.setId(existing.getId());
-                    return ResponseEntity.ok(medicineOrderService.save(medicineOrder));
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<MedicineOrder>
+    updateOrder(
+            @PathVariable @NonNull Long id,
+            @RequestBody MedicineOrder medicineOrder
+    ) {
+
+        return ResponseEntity.ok(
+                medicineOrderService.updateOrder(
+                        id,
+                        medicineOrder
+                )
+        );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable @NonNull Long id) {
-        if (!medicineOrderService.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteOrder(
+            @PathVariable @NonNull Long id
+    ) {
 
-        medicineOrderService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        medicineOrderService.deleteOrder(id);
+
+        return ResponseEntity.noContent()
+                .build();
     }
 }

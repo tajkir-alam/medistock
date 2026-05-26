@@ -21,60 +21,90 @@ public class MedicineController {
 
     @GetMapping
     public List<Medicine> getAllMedicines() {
-        return medicineService.findAll();
-    }
 
-    @GetMapping("/active")
-    public List<Medicine> getActiveMedicines() {
-        return medicineService.findActive();
+        return medicineService.getAllMedicines();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Medicine> getMedicineById(@PathVariable @NonNull Long id) {
-        return medicineService.findById(id)
+    public ResponseEntity<Medicine> getMedicineById(
+            @PathVariable @NonNull Long id
+    ) {
+
+        return medicineService.getMedicineById(id)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseGet(() ->
+                        ResponseEntity.notFound().build());
     }
 
     @GetMapping("/sku/{sku}")
-    public ResponseEntity<Medicine> getMedicineBySku(@PathVariable String sku) {
-        return medicineService.findBySku(sku)
+    public ResponseEntity<Medicine> getMedicineBySku(
+            @PathVariable String sku
+    ) {
+
+        return medicineService.getMedicineBySku(sku)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseGet(() ->
+                        ResponseEntity.notFound().build());
     }
 
-//    @GetMapping("/supplier/{supplierId}")
-//    public List<Medicine> getMedicinesBySupplier(@PathVariable @NonNull Long supplierId) {
-//        return medicineService.findBySupplierId(supplierId);
-//    }
+    @GetMapping("/search")
+    public List<Medicine> searchMedicines(
+            @RequestParam String keyword
+    ) {
+
+        return medicineService.searchMedicines(keyword);
+    }
 
     @GetMapping("/category/{category}")
-    public List<Medicine> getMedicinesByCategory(@PathVariable MedicineCategory category) {
-        return medicineService.findByCategory(category);
+    public List<Medicine> getMedicinesByCategory(
+            @PathVariable MedicineCategory category
+    ) {
+
+        return medicineService
+                .getMedicinesByCategory(category);
+    }
+
+    @GetMapping("/low-stock")
+    public List<Medicine> getLowStockMedicines() {
+
+        return medicineService.getLowStockMedicines();
+    }
+
+    @GetMapping("/expired")
+    public List<Medicine> getExpiredMedicines() {
+
+        return medicineService.getExpiredMedicines();
     }
 
     @PostMapping
-    public Medicine createMedicine(@RequestBody Medicine medicine) {
-        return medicineService.save(medicine);
+    public Medicine createMedicine(
+            @RequestBody Medicine medicine
+    ) {
+
+        return medicineService.saveMedicine(medicine);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Medicine> updateMedicine(@PathVariable @NonNull Long id, @RequestBody Medicine medicine) {
-        return medicineService.findById(id)
-                .map(existing -> {
-                    medicine.setId(existing.getId());
-                    return ResponseEntity.ok(medicineService.save(medicine));
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<Medicine> updateMedicine(
+            @PathVariable @NonNull Long id,
+            @RequestBody Medicine medicine
+    ) {
+
+        return ResponseEntity.ok(
+                medicineService.updateMedicine(
+                        id,
+                        medicine
+                )
+        );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMedicine(@PathVariable @NonNull Long id) {
-        if (!medicineService.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteMedicine(
+            @PathVariable @NonNull Long id
+    ) {
 
-        medicineService.deleteById(id);
+        medicineService.deleteMedicine(id);
+
         return ResponseEntity.noContent().build();
     }
 }

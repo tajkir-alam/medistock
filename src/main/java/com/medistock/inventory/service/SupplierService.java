@@ -13,5 +13,16 @@ public interface SupplierService {
 
     Optional<Supplier> getSupplierById(Long id);
 
+    Optional<Supplier> getSupplierByEmail(String email);
+
+    Optional<Supplier> getSupplierByRegistrationNumber(
+            String registrationNumber
+    );
+
+    Supplier updateSupplier(
+            Long id,
+            Supplier supplier
+    );
+
     void deleteSupplier(Long id);
 }

@@ -12,56 +12,113 @@ import java.util.List;
 @RequestMapping("/api/order-items")
 public class OrderItemController {
 
-    private final OrderItemService orderItemService;
+    private final OrderItemService
+            orderItemService;
 
-    public OrderItemController(OrderItemService orderItemService) {
-        this.orderItemService = orderItemService;
+    public OrderItemController(
+            OrderItemService orderItemService
+    ) {
+
+        this.orderItemService =
+                orderItemService;
     }
 
     @GetMapping
     public List<OrderItem> getAllOrderItems() {
+
         return orderItemService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderItem> getOrderItemById(@PathVariable @NonNull Long id) {
-        return orderItemService.findById(id)
+    public ResponseEntity<OrderItem>
+    getOrderItemById(
+            @PathVariable @NonNull Long id
+    ) {
+
+        return orderItemService
+                .findById(id)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseGet(() ->
+                        ResponseEntity.notFound()
+                                .build());
     }
 
     @GetMapping("/order/{orderId}")
-    public List<OrderItem> getItemsByOrderId(@PathVariable @NonNull Long orderId) {
-        return orderItemService.findByMedicineOrderId(orderId);
+    public List<OrderItem>
+    getItemsByOrderId(
+            @PathVariable @NonNull Long orderId
+    ) {
+
+        return orderItemService
+                .findByMedicineOrderId(
+                        orderId
+                );
     }
 
     @GetMapping("/medicine/{medicineId}")
-    public List<OrderItem> getItemsByMedicineId(@PathVariable @NonNull Long medicineId) {
-        return orderItemService.findByMedicineId(medicineId);
+    public List<OrderItem>
+    getItemsByMedicineId(
+            @PathVariable @NonNull Long medicineId
+    ) {
+
+        return orderItemService
+                .findByMedicineId(
+                        medicineId
+                );
     }
 
     @PostMapping
-    public OrderItem createOrderItem(@RequestBody OrderItem orderItem) {
-        return orderItemService.save(orderItem);
+    public OrderItem createOrderItem(
+            @RequestBody OrderItem orderItem
+    ) {
+
+        return orderItemService
+                .save(orderItem);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OrderItem> updateOrderItem(@PathVariable @NonNull Long id, @RequestBody OrderItem orderItem) {
-        return orderItemService.findById(id)
+    public ResponseEntity<OrderItem>
+    updateOrderItem(
+            @PathVariable @NonNull Long id,
+            @RequestBody OrderItem orderItem
+    ) {
+
+        return orderItemService
+                .findById(id)
                 .map(existing -> {
-                    orderItem.setId(existing.getId());
-                    return ResponseEntity.ok(orderItemService.save(orderItem));
+
+                    orderItem.setId(
+                            existing.getId()
+                    );
+
+                    return ResponseEntity.ok(
+                            orderItemService
+                                    .save(orderItem)
+                    );
                 })
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseGet(() ->
+                        ResponseEntity.notFound()
+                                .build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrderItem(@PathVariable @NonNull Long id) {
-        if (!orderItemService.existsById(id)) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<Void>
+    deleteOrderItem(
+            @PathVariable @NonNull Long id
+    ) {
+
+        if (!orderItemService
+                .existsById(id)) {
+
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
 
         orderItemService.deleteById(id);
-        return ResponseEntity.noContent().build();
+
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 }

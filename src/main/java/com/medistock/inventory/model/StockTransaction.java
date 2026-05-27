@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class StockTransaction {
 
     @Id
@@ -22,21 +21,33 @@ public class StockTransaction {
     @Column(name = "transaction_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "medicine_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "medicine_id",
+            nullable = false
+    )
     private Medicine medicine;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "stock_type", nullable = false)
+    @Column(
+            name = "stock_type",
+            nullable = false
+    )
     private StockType stockType;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(
+            name = "quantity",
+            nullable = false
+    )
     private Integer quantity;
 
-    @Column(name = "transaction_date", nullable = false)
+    @Column(
+            name = "transaction_date",
+            nullable = false
+    )
     private LocalDateTime transactionDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "performed_by")
     private User performedBy;
 

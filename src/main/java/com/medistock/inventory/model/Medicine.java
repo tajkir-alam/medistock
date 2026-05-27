@@ -23,7 +23,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class Medicine {
 
     @Id
@@ -31,34 +30,65 @@ public class Medicine {
     @Column(name = "medicine_id")
     private Long id;
 
-    @Column(name = "medicine_name", nullable = false, length = 120)
+    @Column(
+            name = "medicine_name",
+            nullable = false,
+            length = 120
+    )
     private String medicineName;
 
-    @Column(name = "generic_name", length = 120)
+    @Column(
+            name = "generic_name",
+            length = 120
+    )
     private String genericName;
 
-    @Column(name = "sku", nullable = false, length = 50)
+    @Column(
+            name = "sku",
+            nullable = false,
+            length = 50
+    )
     private String sku;
 
-    @Column(name = "batch_id", length = 50)
+    @Column(
+            name = "batch_id",
+            length = 50
+    )
     private String batchId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "category", nullable = false, length = 50)
+    @Column(
+            name = "category",
+            nullable = false,
+            length = 50
+    )
     private MedicineCategory category;
 
-    @ManyToOne
-    @JoinColumn(name = "supplier_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "supplier_id",
+            nullable = false
+    )
     private Supplier supplier;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(
+            name = "quantity",
+            nullable = false
+    )
     private Integer quantity;
 
-    @Column(name = "low_stock_threshold", nullable = false)
+    @Column(
+            name = "low_stock_threshold",
+            nullable = false
+    )
     @Builder.Default
     private Integer lowStockThreshold = 10;
 
-    @Column(name = "unit_type", nullable = false, length = 30)
+    @Column(
+            name = "unit_type",
+            nullable = false,
+            length = 30
+    )
     private String unitType;
 
     @Column(
@@ -69,16 +99,40 @@ public class Medicine {
     )
     private BigDecimal unitPrice;
 
-    @Column(name = "expiry_date", nullable = false)
+    @Column(
+            name = "expiry_date",
+            nullable = false
+    )
     private LocalDate expiryDate;
 
-    @Column(name = "storage_instructions", length = 500)
+    @Column(
+            name = "storage_instructions",
+            length = 500
+    )
     private String storageInstructions;
 
-    @Column(name = "dosage_notes", length = 500)
+    @Column(
+            name = "dosage_notes",
+            length = 500
+    )
     private String dosageNotes;
 
-    @Column(name = "active", nullable = false)
+    @Column(
+            name = "active",
+            nullable = false
+    )
     @Builder.Default
     private Boolean active = true;
+
+    @PrePersist
+    protected void onCreate() {
+
+        if (active == null) {
+            active = true;
+        }
+
+        if (lowStockThreshold == null) {
+            lowStockThreshold = 10;
+        }
+    }
 }

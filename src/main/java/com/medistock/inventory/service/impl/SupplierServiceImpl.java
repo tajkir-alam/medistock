@@ -14,12 +14,17 @@ import java.util.Optional;
 public class SupplierServiceImpl
         implements SupplierService {
 
-    private final SupplierRepository supplierRepository;
+    private final SupplierRepository
+            supplierRepository;
 
     @Override
-    public Supplier saveSupplier(Supplier supplier) {
+    public Supplier saveSupplier(
+            Supplier supplier
+    ) {
 
-        return supplierRepository.save(supplier);
+        return supplierRepository.save(
+                supplier
+        );
     }
 
     @Override
@@ -29,26 +34,33 @@ public class SupplierServiceImpl
     }
 
     @Override
-    public Optional<Supplier> getSupplierById(Long id) {
+    public Optional<Supplier> getSupplierById(
+            Long id
+    ) {
 
         return supplierRepository.findById(id);
     }
 
     @Override
-    public Optional<Supplier> getSupplierByEmail(
-            String email
-    ) {
-
-        return supplierRepository.findByEmail(email);
-    }
-
-    @Override
-    public Optional<Supplier> getSupplierByRegistrationNumber(
+    public Optional<Supplier>
+    getSupplierByRegistrationNumber(
             String registrationNumber
     ) {
 
-        return supplierRepository.findByRegistrationNumber(
-                registrationNumber
+        return supplierRepository
+                .findByRegistrationNumber(
+                        registrationNumber
+                );
+    }
+
+    @Override
+    public Optional<Supplier>
+    getSupplierByEmail(
+            String email
+    ) {
+
+        return supplierRepository.findByEmail(
+                email
         );
     }
 
@@ -58,12 +70,12 @@ public class SupplierServiceImpl
             Supplier supplier
     ) {
 
-        Supplier existingSupplier = supplierRepository
-                .findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                "Supplier not found"
-                        ));
+        Supplier existingSupplier =
+                supplierRepository.findById(id)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Supplier not found"
+                                ));
 
         existingSupplier.setSupplierName(
                 supplier.getSupplierName()
@@ -97,7 +109,9 @@ public class SupplierServiceImpl
                 supplier.getActive()
         );
 
-        return supplierRepository.save(existingSupplier);
+        return supplierRepository.save(
+                existingSupplier
+        );
     }
 
     @Override

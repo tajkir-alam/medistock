@@ -7,16 +7,22 @@ import java.util.Optional;
 
 public interface SupplierService {
 
-    Supplier saveSupplier(Supplier supplier);
+    Supplier saveSupplier(
+            Supplier supplier
+    );
 
     List<Supplier> getAllSuppliers();
 
-    Optional<Supplier> getSupplierById(Long id);
-
-    Optional<Supplier> getSupplierByEmail(String email);
+    Optional<Supplier> getSupplierById(
+            Long id
+    );
 
     Optional<Supplier> getSupplierByRegistrationNumber(
             String registrationNumber
+    );
+
+    Optional<Supplier> getSupplierByEmail(
+            String email
     );
 
     Supplier updateSupplier(

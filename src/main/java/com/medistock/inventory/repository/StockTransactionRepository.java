@@ -10,11 +10,17 @@ import java.util.List;
 public interface StockTransactionRepository
         extends JpaRepository<StockTransaction, Long> {
 
-    List<StockTransaction> findByMedicineId(Long medicineId);
+    List<StockTransaction> findByMedicineId(
+            Long medicineId
+    );
 
-    List<StockTransaction> findByPerformedById(Long userId);
+    List<StockTransaction> findByPerformedById(
+            Long userId
+    );
 
-    List<StockTransaction> findByStockType(StockType stockType);
+    List<StockTransaction> findByStockType(
+            StockType stockType
+    );
 
     List<StockTransaction> findByTransactionDateBetween(
             LocalDateTime startDate,

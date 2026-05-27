@@ -1,5 +1,6 @@
 package com.medistock.inventory.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,7 +14,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class OrderItem {
 
     @Id
@@ -23,6 +23,7 @@ public class OrderItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
+    @JsonBackReference
     private MedicineOrder medicineOrder;
 
     @ManyToOne(fetch = FetchType.LAZY)

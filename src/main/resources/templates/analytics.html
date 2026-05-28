@@ -284,38 +284,23 @@
                             <circle cx="18" cy="18" fill="transparent" r="15.915" stroke="#edeeef"
                                     stroke-width="4"></circle>
                             <circle cx="18" cy="18" fill="transparent" r="15.915" stroke="#003f87"
-                                    stroke-dasharray="45 55" stroke-dashoffset="0" stroke-width="4"></circle>
-                            <circle cx="18" cy="18" fill="transparent" r="15.915" stroke="#006c4f"
-                                    stroke-dasharray="30 70" stroke-dashoffset="-45" stroke-width="4"></circle>
-                            <circle cx="18" cy="18" fill="transparent" r="15.915" stroke="#44dfab"
-                                    stroke-dasharray="25 75" stroke-dashoffset="-75" stroke-width="4"></circle>
+                                stroke-dasharray="45 55" stroke-dashoffset="0" stroke-width="4"></circle>
                         </svg>
                         <div class="absolute inset-0 flex flex-col items-center justify-center">
-                            <span class="text-headline-md font-bold text-on-surface">1,284</span>
+                            <span class="text-headline-md font-bold text-on-surface" th:text="${medicineCount}">0</span>
                             <span class="text-label-sm text-on-surface-variant">Total SKUs</span>
                         </div>
                     </div>
                     <div class="mt-md w-full space-y-xs">
-                        <div class="flex justify-between items-center p-xs">
+                        <div th:if="${#lists.isEmpty(categoryDistribution)}" class="text-body-sm text-on-surface-variant text-center p-xs">
+                            No category data available.
+                        </div>
+                        <div th:each="entry : ${categoryDistribution}" class="flex justify-between items-center p-xs">
                             <div class="flex items-center gap-base">
                                 <div class="w-2 h-2 rounded-full bg-primary"></div>
-                                <span class="text-body-sm">Antibiotics</span>
+                                <span class="text-body-sm" th:text="${entry.category}">Category</span>
                             </div>
-                            <span class="text-label-md font-semibold">45%</span>
-                        </div>
-                        <div class="flex justify-between items-center p-xs">
-                            <div class="flex items-center gap-base">
-                                <div class="w-2 h-2 rounded-full bg-secondary"></div>
-                                <span class="text-body-sm">Analgesics</span>
-                            </div>
-                            <span class="text-label-md font-semibold">30%</span>
-                        </div>
-                        <div class="flex justify-between items-center p-xs">
-                            <div class="flex items-center gap-base">
-                                <div class="w-2 h-2 rounded-full bg-secondary-fixed-dim"></div>
-                                <span class="text-body-sm">Cardiovascular</span>
-                            </div>
-                            <span class="text-label-md font-semibold">25%</span>
+                            <span class="text-label-md font-semibold" th:text="${entry.percentage + '%'}">0%</span>
                         </div>
                     </div>
                 </div>
@@ -343,82 +328,35 @@
                 </tr>
                 </thead>
                 <tbody class="divide-y divide-outline-variant">
-                <tr class="hover:bg-surface-container-low transition-colors">
-                    <td class="px-md py-md">
-                        <div class="flex items-center gap-base">
-                            <div class="w-10 h-10 rounded bg-primary-fixed flex items-center justify-center">
-                                <span class="material-symbols-outlined text-primary">medication</span>
-                            </div>
-                            <div>
-                                <div class="text-body-md font-semibold">Amoxicillin 500mg</div>
-                                <div class="text-label-sm text-on-surface-variant">SKU: AMX-092</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-md py-md">
-                        <span class="bg-surface-container-high px-base py-1 rounded-full text-label-sm font-medium">Antibiotics</span>
-                    </td>
-                    <td class="px-md py-md">
-                        <div class="w-full bg-surface-container-high h-2 rounded-full max-w-[120px]">
-                            <div class="bg-primary h-2 rounded-full" style="width: 92%"></div>
-                        </div>
-                        <span class="text-label-sm text-on-surface-variant">92% velocity</span>
-                    </td>
-                    <td class="px-md py-md text-body-md font-medium">450 Units</td>
-                    <td class="px-md py-md">
-                        <span class="bg-secondary-container text-on-secondary-container px-base py-1 rounded-full text-label-sm font-bold">Stable</span>
-                    </td>
+                <tr th:if="${#lists.isEmpty(topMedicines)}">
+                    <td class="px-md py-md text-body-sm text-on-surface-variant" colspan="5">No moving medicines found.</td>
                 </tr>
-                <tr class="hover:bg-surface-container-low transition-colors">
+                <tr th:each="medicine : ${topMedicines}" class="hover:bg-surface-container-low transition-colors">
                     <td class="px-md py-md">
                         <div class="flex items-center gap-base">
                             <div class="w-10 h-10 rounded bg-primary-fixed flex items-center justify-center">
                                 <span class="material-symbols-outlined text-primary">medication</span>
                             </div>
                             <div>
-                                <div class="text-body-md font-semibold">Paracetamol 650mg</div>
-                                <div class="text-label-sm text-on-surface-variant">SKU: PAR-112</div>
+                                <div class="text-body-md font-semibold" th:text="${medicine.medicineName}">Medicine</div>
+                                <div class="text-label-sm text-on-surface-variant" th:text="${'SKU: ' + medicine.sku}">SKU</div>
                             </div>
                         </div>
                     </td>
                     <td class="px-md py-md">
-                        <span class="bg-surface-container-high px-base py-1 rounded-full text-label-sm font-medium">Analgesics</span>
+                        <span class="bg-surface-container-high px-base py-1 rounded-full text-label-sm font-medium" th:text="${medicine.category}">Category</span>
                     </td>
                     <td class="px-md py-md">
                         <div class="w-full bg-surface-container-high h-2 rounded-full max-w-[120px]">
-                            <div class="bg-primary h-2 rounded-full" style="width: 84%"></div>
+                            <div class="bg-primary h-2 rounded-full" th:style="${'width:' + medicine.turnoverRate + '%'}"></div>
                         </div>
-                        <span class="text-label-sm text-on-surface-variant">84% velocity</span>
+                        <span class="text-label-sm text-on-surface-variant" th:text="${medicine.turnoverRate + '% velocity'}">0% velocity</span>
                     </td>
-                    <td class="px-md py-md text-body-md font-medium">120 Units</td>
+                    <td class="px-md py-md text-body-md font-medium" th:text="${medicine.remainingStock + ' Units'}">0 Units</td>
                     <td class="px-md py-md">
-                        <span class="bg-error-container text-on-error-container px-base py-1 rounded-full text-label-sm font-bold">Low Stock</span>
-                    </td>
-                </tr>
-                <tr class="hover:bg-surface-container-low transition-colors">
-                    <td class="px-md py-md">
-                        <div class="flex items-center gap-base">
-                            <div class="w-10 h-10 rounded bg-primary-fixed flex items-center justify-center">
-                                <span class="material-symbols-outlined text-primary">medication</span>
-                            </div>
-                            <div>
-                                <div class="text-body-md font-semibold">Atorvastatin 20mg</div>
-                                <div class="text-label-sm text-on-surface-variant">SKU: ATR-445</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-md py-md">
-                        <span class="bg-surface-container-high px-base py-1 rounded-full text-label-sm font-medium">Cardiovascular</span>
-                    </td>
-                    <td class="px-md py-md">
-                        <div class="w-full bg-surface-container-high h-2 rounded-full max-w-[120px]">
-                            <div class="bg-primary h-2 rounded-full" style="width: 78%"></div>
-                        </div>
-                        <span class="text-label-sm text-on-surface-variant">78% velocity</span>
-                    </td>
-                    <td class="px-md py-md text-body-md font-medium">890 Units</td>
-                    <td class="px-md py-md">
-                        <span class="bg-secondary-container text-on-secondary-container px-base py-1 rounded-full text-label-sm font-bold">Stable</span>
+                        <span th:if="${medicine.stockStatus == 'Stable'}" class="bg-secondary-container text-on-secondary-container px-base py-1 rounded-full text-label-sm font-bold" th:text="${medicine.stockStatus}">Stable</span>
+                        <span th:if="${medicine.stockStatus == 'Low Stock'}" class="bg-error-container text-on-error-container px-base py-1 rounded-full text-label-sm font-bold" th:text="${medicine.stockStatus}">Low Stock</span>
+                        <span th:if="${medicine.stockStatus == 'Out of Stock'}" class="bg-surface-container-high px-base py-1 rounded-full text-label-sm font-bold" th:text="${medicine.stockStatus}">Out of Stock</span>
                     </td>
                 </tr>
                 </tbody>
@@ -428,19 +366,19 @@
         <div class="grid grid-cols-4 gap-gutter pb-lg">
             <div class="bg-white p-base rounded-lg ambient-shadow border-l-4 border-primary">
                 <p class="text-label-sm font-label-sm text-on-surface-variant">Total Inflow Value</p>
-                <p class="text-headline-md font-bold text-primary">$45,280</p>
+                <p class="text-headline-md font-bold text-primary" th:text="${summary.totalInflowValue}">$0.00</p>
             </div>
             <div class="bg-white p-base rounded-lg ambient-shadow border-l-4 border-secondary">
                 <p class="text-label-sm font-label-sm text-on-surface-variant">Average Turnover</p>
-                <p class="text-headline-md font-bold text-secondary">12.4 Days</p>
+                <p class="text-headline-md font-bold text-secondary" th:text="${summary.averageTurnoverDays}">0 Days</p>
             </div>
             <div class="bg-white p-base rounded-lg ambient-shadow border-l-4 border-primary-fixed-dim">
                 <p class="text-label-sm font-label-sm text-on-surface-variant">Order Fulfillment</p>
-                <p class="text-headline-md font-bold text-on-surface">98.2%</p>
+                <p class="text-headline-md font-bold text-on-surface" th:text="${summary.fulfillmentRate}">98.2%</p>
             </div>
             <div class="bg-white p-base rounded-lg ambient-shadow border-l-4 border-error">
                 <p class="text-label-sm font-label-sm text-on-surface-variant">Expiring (30 Days)</p>
-                <p class="text-headline-md font-bold text-error">12 Items</p>
+                <p class="text-headline-md font-bold text-error" th:text="${summary.expiringItems}">12 Items</p>
             </div>
         </div>
     </div>

@@ -247,132 +247,42 @@
                 </tr>
                 </thead>
                 <tbody class="divide-y divide-outline-variant">
-                <!-- Row 1: Normal Status -->
-                <tr class="hover:bg-surface-bright transition-colors group">
+                <tr th:if="${#lists.isEmpty(medicines)}">
+                    <td class="px-6 py-6 text-body-sm text-on-surface-variant" colspan="7">No medicines found.</td>
+                </tr>
+                <tr th:each="medicine : ${medicines}" class="hover:bg-surface-bright transition-colors group">
                     <td class="px-6 py-4">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-lg bg-primary-fixed-dim flex items-center justify-center text-primary">
                                 <span class="material-symbols-outlined" data-icon="pill">pill</span>
                             </div>
                             <div>
-                                <div class="text-body-md font-semibold">Amoxicillin 500mg</div>
-                                <div class="text-label-sm text-outline">SKU: AMX-2291</div>
+                                <div class="text-body-md font-semibold" th:text="${medicine.medicineName}">Medicine Name</div>
+                                <div class="text-label-sm text-outline" th:text="${'SKU: ' + medicine.sku}">SKU</div>
                             </div>
                         </div>
                     </td>
-                    <td class="px-6 py-4 text-body-sm">Antibiotics</td>
+                    <td class="px-6 py-4 text-body-sm" th:text="${medicine.category}">Category</td>
                     <td class="px-6 py-4">
                         <div class="flex items-center gap-2">
                             <div class="h-2 w-16 bg-surface-container-high rounded-full overflow-hidden">
-                                <div class="h-full bg-secondary w-[85%]"></div>
+                                <div class="h-full bg-secondary" th:style="${medicine.quantity != null and medicine.quantity > 0 ? 'width:85%' : 'width:0%'}"></div>
                             </div>
-                            <span class="text-body-sm font-medium">1,240 Units</span>
+                            <span class="text-body-sm font-medium" th:text="${medicine.quantity + ' Units'}">0 Units</span>
                         </div>
                     </td>
-                    <td class="px-6 py-4 text-body-sm">Oct 24, 2025</td>
-                    <td class="px-6 py-4 text-body-sm">PharmaCorp Int.</td>
+                    <td class="px-6 py-4 text-body-sm" th:text="${medicine.expiryDate}">Date</td>
+                    <td class="px-6 py-4 text-body-sm" th:text="${medicine.supplier != null ? medicine.supplier.supplierName : 'Unassigned'}">Supplier</td>
                     <td class="px-6 py-4">
-                        <span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-label-sm">In Stock</span>
+                        <span th:if="${medicine.quantity != null and medicine.lowStockThreshold != null and medicine.quantity > medicine.lowStockThreshold}"
+                              class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-label-sm">In Stock</span>
+                        <span th:if="${medicine.quantity != null and medicine.quantity > 0 and medicine.quantity <= medicine.lowStockThreshold}"
+                              class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-label-sm border border-amber-200">Low Stock</span>
+                        <span th:if="${medicine.quantity != null and medicine.quantity <= 0}"
+                              class="px-3 py-1 rounded-full bg-error-container text-on-error-container text-label-sm">Out of Stock</span>
                     </td>
                     <td class="px-6 py-4 text-right">
-                        <button class="text-outline hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
-                        </button>
-                    </td>
-                </tr>
-                <!-- Row 2: Low Stock Status -->
-                <tr class="hover:bg-surface-bright transition-colors group relative">
-                    <td class="px-6 py-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
-                                <span class="material-symbols-outlined" data-icon="vaccines">vaccines</span>
-                            </div>
-                            <div>
-                                <div class="text-body-md font-semibold">Insulin Glargine</div>
-                                <div class="text-label-sm text-outline">SKU: INS-9902</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 text-body-sm">Endocrine</td>
-                    <td class="px-6 py-4">
-                        <div class="flex items-center gap-2">
-                            <div class="h-2 w-16 bg-surface-container-high rounded-full overflow-hidden">
-                                <div class="h-full bg-amber-500 w-[15%]"></div>
-                            </div>
-                            <span class="text-body-sm font-medium text-amber-600">42 Units</span>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 text-body-sm">Dec 12, 2024</td>
-                    <td class="px-6 py-4 text-body-sm">BioMed Logistics</td>
-                    <td class="px-6 py-4">
-                        <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-label-sm border border-amber-200">Low Stock</span>
-                    </td>
-                    <td class="px-6 py-4 text-right">
-                        <button class="text-outline hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
-                        </button>
-                    </td>
-                </tr>
-                <!-- Row 3: Out of Stock -->
-                <tr class="hover:bg-surface-bright transition-colors group relative">
-                    <td class="px-6 py-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-error-container flex items-center justify-center text-error">
-                                <span class="material-symbols-outlined" data-icon="medical_information">medical_information</span>
-                            </div>
-                            <div>
-                                <div class="text-body-md font-semibold">Lisinopril 10mg</div>
-                                <div class="text-label-sm text-outline">SKU: LIS-0012</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 text-body-sm">Cardiovascular</td>
-                    <td class="px-6 py-4">
-                        <div class="flex items-center gap-2">
-                            <div class="h-2 w-16 bg-surface-container-high rounded-full overflow-hidden">
-                                <div class="h-full bg-error w-0"></div>
-                            </div>
-                            <span class="text-body-sm font-medium text-error">0 Units</span>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 text-body-sm">Expired Data</td>
-                    <td class="px-6 py-4 text-body-sm">Global Health Co.</td>
-                    <td class="px-6 py-4">
-                        <span class="px-3 py-1 rounded-full bg-error-container text-on-error-container text-label-sm">Out of Stock</span>
-                    </td>
-                    <td class="px-6 py-4 text-right">
-                        <button class="text-outline hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
-                        </button>
-                    </td>
-                </tr>
-                <!-- Row 4: Expired -->
-                <tr class="hover:bg-surface-bright transition-colors group">
-                    <td class="px-6 py-4">
-                        <div class="flex items-center gap-3 opacity-50">
-                            <div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-outline">
-                                <span class="material-symbols-outlined" data-icon="science">science</span>
-                            </div>
-                            <div>
-                                <div class="text-body-md font-semibold">Morphine Sulfate</div>
-                                <div class="text-label-sm text-outline">SKU: MOR-4422</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 text-body-sm opacity-50">Analgesics</td>
-                    <td class="px-6 py-4 opacity-50">
-                        <div class="flex items-center gap-2">
-                            <div class="h-2 w-16 bg-surface-container-high rounded-full"></div>
-                            <span class="text-body-sm font-medium">12 Units</span>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 text-body-sm text-error font-semibold">Jan 01, 2024</td>
-                    <td class="px-6 py-4 text-body-sm opacity-50">SecureMed Sply</td>
-                    <td class="px-6 py-4">
-                        <span class="px-3 py-1 rounded-full bg-surface-variant text-on-surface-variant text-label-sm border border-outline">Expired</span>
-                    </td>
-                    <td class="px-6 py-4 text-right">
-                        <button class="text-outline hover:text-primary transition-colors">
+                        <button class="text-outline hover:text-primary transition-colors" type="button">
                             <span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
                         </button>
                     </td>
@@ -381,7 +291,7 @@
             </table>
             <!-- Pagination Footer -->
             <div class="px-6 py-4 bg-surface-container-lowest border-t border-outline-variant flex justify-between items-center">
-                <span class="text-body-sm text-on-surface-variant">Showing 1 to 4 of 124 medicines</span>
+                <span class="text-body-sm text-on-surface-variant" th:text="${'Showing ' + medicines.size() + ' medicines'}">Showing 0 medicines</span>
                 <div class="flex gap-2">
                     <button class="px-3 py-1 border border-outline-variant rounded hover:bg-surface-container transition-colors text-label-md disabled:opacity-30"
                             disabled="">
@@ -410,7 +320,7 @@
                     </div>
                 </div>
                 <div>
-                    <div class="text-headline-lg font-headline-lg">$242,500.00</div>
+                    <div class="text-headline-lg font-headline-lg" th:text="${totalInventoryValue}">$242,500.00</div>
                     <div class="text-label-sm text-secondary flex items-center gap-1 mt-1">
                         <span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>
                         +12% from last month
@@ -425,14 +335,14 @@
                     </div>
                 </div>
                 <div>
-                    <div class="text-headline-lg font-headline-lg">18 Items</div>
+                    <div class="text-headline-lg font-headline-lg" th:text="${lowStockMedicines.size()}">18 Items</div>
                     <div class="text-label-sm text-outline mt-1">Requires immediate reorder</div>
                 </div>
             </div>
             <div class="col-span-12 md:col-span-4 bg-primary text-on-primary p-6 rounded-xl custom-shadow flex flex-col justify-between h-40 relative overflow-hidden">
                 <div class="relative z-10">
                     <span class="text-label-md font-label-md opacity-80">Upcoming Expirations</span>
-                    <div class="text-headline-lg font-headline-lg mt-2">04 Items</div>
+                    <div class="text-headline-lg font-headline-lg mt-2" th:text="${upcomingExpirationsCount}">04 Items</div>
                 </div>
                 <div class="relative z-10">
                     <button class="text-label-md font-label-md border border-white/30 px-4 py-2 rounded-lg hover:bg-white/10 transition-all">

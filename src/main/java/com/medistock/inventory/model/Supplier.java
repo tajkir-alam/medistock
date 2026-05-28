@@ -52,6 +52,9 @@ public class Supplier {
     @Column(name = "address", length = 300)
     private String address;
 
+        @Column(name = "notes", length = 500)
+        private String notes;
+
     @Column(name = "active", nullable = false)
     @Builder.Default
     private Boolean active = true;

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
     <title>MediStock Create Order</title>
@@ -185,7 +185,14 @@
         </div>
     </header>
     <!-- Form Content -->
+    <form th:action="@{/orders/save}" th:object="${order}" method="post">
     <div class="p-margin-desktop max-w-7xl mx-auto">
+        <div th:if="${successMessage}" class="mb-6 bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded-lg">
+            <p th:text="${successMessage}"></p>
+        </div>
+        <div th:if="${errorMessage}" class="mb-6 bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
+            <p th:text="${errorMessage}"></p>
+        </div>
         <div class="grid grid-cols-12 gap-gutter">
             <!-- Left Column: Order Inputs -->
             <div class="col-span-12 lg:col-span-8 flex flex-col gap-md">
@@ -199,11 +206,12 @@
                     <div class="grid grid-cols-2 gap-gutter">
                         <div class="flex flex-col gap-1">
                             <label class="text-label-md font-label-md text-on-surface-variant">Select Supplier</label>
-                            <select class="bg-surface border border-outline rounded-lg px-4 py-2 text-body-md focus:ring-2 focus:ring-primary focus:outline-none transition-all">
-                                <option>Select a supplier...</option>
-                                <option>PharmaCorp Logistics</option>
-                                <option>Global Med Supplies</option>
-                                <option>BioHealth Distro</option>
+                            <select class="bg-surface border border-outline rounded-lg px-4 py-2 text-body-md focus:ring-2 focus:ring-primary focus:outline-none transition-all"
+                                    th:field="*{supplier.id}">
+                                <option value="">Select a supplier...</option>
+                                <option th:each="supplier : ${suppliers}"
+                                        th:value="${supplier.id}"
+                                        th:text="${supplier.supplierName}"></option>
                             </select>
                         </div>
                         <div class="flex flex-col gap-1">
@@ -233,7 +241,7 @@
                                   data-icon="medication">medication</span>
                             <h3 class="text-headline-sm font-headline-sm text-on-surface">Items Selection</h3>
                         </div>
-                        <button class="flex items-center gap-1 text-primary hover:bg-primary-container/10 px-3 py-1 rounded-lg transition-colors">
+                        <button type="button" class="flex items-center gap-1 text-primary hover:bg-primary-container/10 px-3 py-1 rounded-lg transition-colors">
                             <span class="material-symbols-outlined text-[18px]" data-icon="add_circle">add_circle</span>
                             <span class="text-label-md font-label-md">Add Manual Entry</span>
                         </button>
@@ -260,47 +268,95 @@
                             </thead>
                             <tbody class="text-body-sm bg-white divide-y divide-surface-container-high">
                             <tr>
-                                <td class="px-4 py-4 font-semibold text-on-surface">Amoxicillin 500mg Caps</td>
-                                <td class="px-4 py-4 text-on-surface-variant">AMX-500-CP</td>
+                                <td class="px-4 py-4 font-semibold text-on-surface">
+                                    <select class="w-full bg-white border border-outline-variant rounded px-2 py-1 focus:ring-1 focus:ring-primary"
+                                            th:field="*{orderItems[0].medicine.id}">
+                                        <option value="">Select medicine...</option>
+                                        <option th:each="medicine : ${medicines}"
+                                                th:value="${medicine.id}"
+                                                th:text="${medicine.medicineName + ' (' + medicine.sku + ')'}"></option>
+                                    </select>
+                                </td>
+                                <td class="px-4 py-4 text-on-surface-variant" th:text="${order.orderItems[0].medicine != null ? order.orderItems[0].medicine.sku : 'Select medicine'}">AMX-500-CP</td>
                                 <td class="px-4 py-4">
                                     <input class="w-20 border border-outline-variant rounded px-2 py-1 focus:ring-1 focus:ring-primary"
-                                           type="number" value="100"/>
+                                           min="1"
+                                           th:field="*{orderItems[0].quantity}"
+                                           type="number"/>
                                 </td>
-                                <td class="px-4 py-4 text-right">$0.45</td>
-                                <td class="px-4 py-4 text-right font-medium">$45.00</td>
+                                <td class="px-4 py-4 text-right">
+                                    <input class="w-28 border border-outline-variant rounded px-2 py-1 text-right focus:ring-1 focus:ring-primary"
+                                           min="0"
+                                           step="0.01"
+                                           th:field="*{orderItems[0].unitPrice}"
+                                           type="number"/>
+                                </td>
+                                <td class="px-4 py-4 text-right font-medium">Calculated on submit</td>
                                 <td class="px-4 py-4">
                                     <button class="material-symbols-outlined text-error hover:bg-error-container p-1 rounded transition-colors"
-                                            data-icon="delete">delete
+                                            data-icon="delete" type="button">delete
                                     </button>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-4 font-semibold text-on-surface">Lisinopril 10mg Tabs</td>
-                                <td class="px-4 py-4 text-on-surface-variant">LSN-010-TB</td>
+                                <td class="px-4 py-4 font-semibold text-on-surface">
+                                    <select class="w-full bg-white border border-outline-variant rounded px-2 py-1 focus:ring-1 focus:ring-primary"
+                                            th:field="*{orderItems[1].medicine.id}">
+                                        <option value="">Select medicine...</option>
+                                        <option th:each="medicine : ${medicines}"
+                                                th:value="${medicine.id}"
+                                                th:text="${medicine.medicineName + ' (' + medicine.sku + ')'}"></option>
+                                    </select>
+                                </td>
+                                <td class="px-4 py-4 text-on-surface-variant" th:text="${order.orderItems[1].medicine != null ? order.orderItems[1].medicine.sku : 'Select medicine'}">LSN-010-TB</td>
                                 <td class="px-4 py-4">
                                     <input class="w-20 border border-outline-variant rounded px-2 py-1 focus:ring-1 focus:ring-primary"
-                                           type="number" value="500"/>
+                                           min="1"
+                                           th:field="*{orderItems[1].quantity}"
+                                           type="number"/>
                                 </td>
-                                <td class="px-4 py-4 text-right">$0.12</td>
-                                <td class="px-4 py-4 text-right font-medium">$60.00</td>
+                                <td class="px-4 py-4 text-right">
+                                    <input class="w-28 border border-outline-variant rounded px-2 py-1 text-right focus:ring-1 focus:ring-primary"
+                                           min="0"
+                                           step="0.01"
+                                           th:field="*{orderItems[1].unitPrice}"
+                                           type="number"/>
+                                </td>
+                                <td class="px-4 py-4 text-right font-medium">Calculated on submit</td>
                                 <td class="px-4 py-4">
                                     <button class="material-symbols-outlined text-error hover:bg-error-container p-1 rounded transition-colors"
-                                            data-icon="delete">delete
+                                            data-icon="delete" type="button">delete
                                     </button>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="px-4 py-4 font-semibold text-on-surface">Metformin 850mg</td>
-                                <td class="px-4 py-4 text-on-surface-variant">MET-850-TB</td>
+                                <td class="px-4 py-4 font-semibold text-on-surface">
+                                    <select class="w-full bg-white border border-outline-variant rounded px-2 py-1 focus:ring-1 focus:ring-primary"
+                                            th:field="*{orderItems[2].medicine.id}">
+                                        <option value="">Select medicine...</option>
+                                        <option th:each="medicine : ${medicines}"
+                                                th:value="${medicine.id}"
+                                                th:text="${medicine.medicineName + ' (' + medicine.sku + ')'}"></option>
+                                    </select>
+                                </td>
+                                <td class="px-4 py-4 text-on-surface-variant" th:text="${order.orderItems[2].medicine != null ? order.orderItems[2].medicine.sku : 'Select medicine'}">MET-850-TB</td>
                                 <td class="px-4 py-4">
                                     <input class="w-20 border border-outline-variant rounded px-2 py-1 focus:ring-1 focus:ring-primary"
-                                           type="number" value="200"/>
+                                           min="1"
+                                           th:field="*{orderItems[2].quantity}"
+                                           type="number"/>
                                 </td>
-                                <td class="px-4 py-4 text-right">$0.30</td>
-                                <td class="px-4 py-4 text-right font-medium">$60.00</td>
+                                <td class="px-4 py-4 text-right">
+                                    <input class="w-28 border border-outline-variant rounded px-2 py-1 text-right focus:ring-1 focus:ring-primary"
+                                           min="0"
+                                           step="0.01"
+                                           th:field="*{orderItems[2].unitPrice}"
+                                           type="number"/>
+                                </td>
+                                <td class="px-4 py-4 text-right font-medium">Calculated on submit</td>
                                 <td class="px-4 py-4">
                                     <button class="material-symbols-outlined text-error hover:bg-error-container p-1 rounded transition-colors"
-                                            data-icon="delete">delete
+                                            data-icon="delete" type="button">delete
                                     </button>
                                 </td>
                             </tr>
@@ -316,21 +372,21 @@
                     <h3 class="text-headline-sm font-headline-sm text-on-surface mb-md">Order Summary</h3>
                     <div class="space-y-sm mb-lg">
                         <div class="flex justify-between items-center text-body-md text-on-surface-variant">
-                            <span>Subtotal (3 items)</span>
-                            <span>$165.00</span>
+                            <span th:text="${'Subtotal (' + (order.orderItems != null ? order.orderItems.size() : 0) + ' items)'}">Subtotal (0 items)</span>
+                            <span th:text="${order.totalAmount != null ? '$' + order.totalAmount : '$0.00'}">$0.00</span>
                         </div>
                         <div class="flex justify-between items-center text-body-md text-on-surface-variant">
                             <span>Shipping Fee</span>
                             <span class="text-secondary font-medium">FREE</span>
                         </div>
                         <div class="flex justify-between items-center text-body-md text-on-surface-variant">
-                            <span>Estimated Tax (5%)</span>
-                            <span>$8.25</span>
+                            <span>Estimated Tax</span>
+                            <span>Calculated on submit</span>
                         </div>
                         <div class="h-px bg-outline-variant my-2"></div>
                         <div class="flex justify-between items-center text-headline-sm font-headline-sm text-on-surface">
                             <span>Total Amount</span>
-                            <span class="text-primary">$173.25</span>
+                            <span class="text-primary" th:text="${order.totalAmount != null ? '$' + order.totalAmount : '$0.00'}">$0.00</span>
                         </div>
                     </div>
                     <div class="bg-surface-container-low rounded-lg p-4 mb-lg">
@@ -338,19 +394,24 @@
                             <span class="material-symbols-outlined text-secondary" data-icon="verified">verified</span>
                             <div>
                                 <p class="text-label-md font-label-md text-on-surface">In-Stock Availability</p>
-                                <p class="text-body-sm text-on-surface-variant">All items are currently available for
-                                    immediate dispatch from PharmaCorp.</p>
+                                <p th:if="${order.supplier != null and order.supplier.id != null}"
+                                   class="text-body-sm text-on-surface-variant"
+                                   th:text="${order.supplier.supplierName + ' is selected for this order.'}">Supplier selected</p>
+                                <p th:unless="${order.supplier != null and order.supplier.id != null}"
+                                   class="text-body-sm text-on-surface-variant">
+                                    Select a supplier to continue.
+                                </p>
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-col gap-3">
-                        <button class="w-full bg-primary text-on-primary py-3 rounded-lg font-label-md text-label-md shadow-md hover:bg-primary-container transition-all active:scale-95">
+                        <button class="w-full bg-primary text-on-primary py-3 rounded-lg font-label-md text-label-md shadow-md hover:bg-primary-container transition-all active:scale-95" type="submit">
                             Submit Purchase Order
                         </button>
-                        <button class="w-full border border-primary text-primary py-3 rounded-lg font-label-md text-label-md hover:bg-primary-container/10 transition-all">
+                        <button class="w-full border border-primary text-primary py-3 rounded-lg font-label-md text-label-md hover:bg-primary-container/10 transition-all" type="button">
                             Save as Draft
                         </button>
-                        <button class="w-full text-error py-2 font-label-md text-label-md hover:bg-error-container/20 rounded-lg transition-all">
+                        <button class="w-full text-error py-2 font-label-md text-label-md hover:bg-error-container/20 rounded-lg transition-all" type="button">
                             Discard Order
                         </button>
                     </div>
@@ -365,13 +426,17 @@
                     <div class="relative z-10">
                         <p class="text-label-sm font-label-sm text-primary uppercase tracking-wider mb-1">Logistics
                             Partner</p>
-                        <h4 class="text-headline-sm font-headline-sm text-on-primary-fixed">PharmaCorp Global</h4>
-                        <p class="text-body-sm text-on-surface-variant">Est. Delivery: 24-48 Hours</p>
+                        <h4 class="text-headline-sm font-headline-sm text-on-primary-fixed"
+                            th:text="${order.supplier != null and order.supplier.id != null ? order.supplier.supplierName : 'No supplier selected'}">No supplier selected</h4>
+                        <p class="text-body-sm text-on-surface-variant"
+                           th:text="${order.orderItems != null ? order.orderItems.size() : 0} + ' medicine rows prepared'">0 medicine rows prepared</p>
                     </div>
                 </section>
             </div>
         </div>
     </div>
+    </div>
+    </form>
 </main>
 </body>
 </html>

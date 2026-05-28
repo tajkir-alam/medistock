@@ -211,7 +211,7 @@
                     <span class="text-on-surface-variant text-label-md font-label-md">Total Medicines</span>
                     <span class="text-secondary text-label-sm font-label-sm bg-secondary-container px-2 py-0.5 rounded-full">+12%</span>
                 </div>
-                <div class="text-headline-lg font-headline-lg text-on-surface">1,284</div>
+                <div class="text-headline-lg font-headline-lg text-on-surface" th:text="${medicineCount}">0</div>
                 <p class="text-body-sm font-body-sm text-outline mt-xs">Across 14 categories</p>
             </div>
             <!-- Low Stock -->
@@ -220,7 +220,7 @@
                     <span class="text-on-surface-variant text-label-md font-label-md">Low Stock Items</span>
                     <span class="material-symbols-outlined text-[#FFB000]" data-icon="warning">warning</span>
                 </div>
-                <div class="text-headline-lg font-headline-lg text-on-surface">42</div>
+                <div class="text-headline-lg font-headline-lg text-on-surface" th:text="${lowStockCount}">42</div>
                 <p class="text-body-sm font-body-sm text-outline mt-xs">Requires immediate reorder</p>
             </div>
             <!-- Expired Items -->
@@ -229,7 +229,7 @@
                     <span class="text-on-surface-variant text-label-md font-label-md">Expired Items</span>
                     <span class="text-error text-label-sm font-label-sm bg-error-container px-2 py-0.5 rounded-full">Critical</span>
                 </div>
-                <div class="text-headline-lg font-headline-lg text-on-surface">8</div>
+                <div class="text-headline-lg font-headline-lg text-on-surface" th:text="${expiredCount}">8</div>
                 <p class="text-body-sm font-body-sm text-outline mt-xs">Marked for disposal</p>
             </div>
             <!-- Active Suppliers -->
@@ -239,7 +239,7 @@
                     <span class="material-symbols-outlined text-primary"
                           data-icon="local_shipping">local_shipping</span>
                 </div>
-                <div class="text-headline-lg font-headline-lg text-on-surface">26</div>
+                <div class="text-headline-lg font-headline-lg text-on-surface" th:text="${activeSupplierCount}">26</div>
                 <p class="text-body-sm font-body-sm text-outline mt-xs">Last delivery today, 08:45 AM</p>
             </div>
         </section>
@@ -253,42 +253,24 @@
                         <button class="text-primary text-label-md font-label-md hover:underline">View All</button>
                     </div>
                     <div class="space-y-sm flex-1">
-                        <!-- Alert Item 1 -->
-                        <div class="flex items-center p-sm bg-surface-container-low rounded-lg border border-outline-variant">
-                            <div class="w-10 h-10 rounded-full bg-error-container text-error flex items-center justify-center mr-sm">
-                                <span class="material-symbols-outlined" data-icon="priority_high">priority_high</span>
-                            </div>
-                            <div class="flex-1">
-                                <div class="text-label-md font-label-md text-on-surface">Amoxicillin 500mg</div>
-                                <div class="text-body-sm font-body-sm text-outline">Stock: 12 Units (Min: 50)</div>
-                            </div>
-                            <button class="px-3 py-1 bg-primary text-on-primary rounded text-label-sm font-label-sm">
-                                Order
-                            </button>
+                        <div th:if="${#lists.isEmpty(lowStockMedicines)}" class="p-sm bg-surface-container-low rounded-lg border border-outline-variant text-body-sm text-on-surface-variant">
+                            No low stock items right now.
                         </div>
-                        <!-- Alert Item 2 -->
-                        <div class="flex items-center p-sm bg-surface-container-low rounded-lg border border-outline-variant">
+                        <div th:each="medicine : ${lowStockMedicines}" class="flex items-center p-sm bg-surface-container-low rounded-lg border border-outline-variant">
                             <div class="w-10 h-10 rounded-full bg-error-container text-error flex items-center justify-center mr-sm">
                                 <span class="material-symbols-outlined" data-icon="priority_high">priority_high</span>
                             </div>
                             <div class="flex-1">
-                                <div class="text-label-md font-label-md text-on-surface">Lisinopril 10mg</div>
-                                <div class="text-body-sm font-body-sm text-outline">Stock: 5 Units (Min: 20)</div>
+                                <div class="text-label-md font-label-md text-on-surface" th:text="${medicine.medicineName}">Medicine Name</div>
+                                <div class="text-body-sm font-body-sm text-outline">
+                                    Stock:
+                                    <span th:text="${medicine.quantity}">0</span>
+                                    Units (Min:
+                                    <span th:text="${medicine.lowStockThreshold}">0</span>
+                                    )
+                                </div>
                             </div>
-                            <button class="px-3 py-1 bg-primary text-on-primary rounded text-label-sm font-label-sm">
-                                Order
-                            </button>
-                        </div>
-                        <!-- Alert Item 3 -->
-                        <div class="flex items-center p-sm bg-surface-container-low rounded-lg border border-outline-variant">
-                            <div class="w-10 h-10 rounded-full bg-error-container text-error flex items-center justify-center mr-sm">
-                                <span class="material-symbols-outlined" data-icon="priority_high">priority_high</span>
-                            </div>
-                            <div class="flex-1">
-                                <div class="text-label-md font-label-md text-on-surface">Metformin 850mg</div>
-                                <div class="text-body-sm font-body-sm text-outline">Stock: 18 Units (Min: 100)</div>
-                            </div>
-                            <button class="px-3 py-1 bg-primary text-on-primary rounded text-label-sm font-label-sm">
+                            <button class="px-3 py-1 bg-primary text-on-primary rounded text-label-sm font-label-sm" type="button">
                                 Order
                             </button>
                         </div>
@@ -328,56 +310,18 @@
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-outline-variant">
-                            <tr class="hover:bg-surface-container-low transition-colors">
-                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Paracetamol 500mg</td>
-                                <td class="px-md py-4"><span
-                                        class="px-2 py-1 bg-secondary-container text-on-secondary-container text-label-sm font-label-sm rounded-full">Inbound</span>
-                                </td>
-                                <td class="px-md py-4 text-body-md font-body-md text-secondary font-semibold">+500
-                                    Units
-                                </td>
-                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Dr. Sarah Jenkins</td>
-                                <td class="px-md py-4 text-body-sm font-body-sm text-outline">Oct 24, 09:12 AM</td>
+                            <tr th:if="${#lists.isEmpty(recentTransactions)}">
+                                <td class="px-md py-4 text-body-sm text-on-surface-variant" colspan="5">No inventory activity found.</td>
                             </tr>
-                            <tr class="hover:bg-surface-container-low transition-colors">
-                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Ibuprofen 200mg</td>
-                                <td class="px-md py-4"><span
-                                        class="px-2 py-1 bg-error-container text-on-error-container text-label-sm font-label-sm rounded-full">Outbound</span>
+                            <tr th:each="transaction : ${recentTransactions}" class="hover:bg-surface-container-low transition-colors">
+                                <td class="px-md py-4 text-body-md font-body-md text-on-surface" th:text="${transaction.medicine != null ? transaction.medicine.medicineName : 'Unknown Medicine'}">Medicine</td>
+                                <td class="px-md py-4">
+                                    <span th:if="${transaction.stockType != null && transaction.stockType.name() == 'STOCK_IN'}" class="px-2 py-1 bg-secondary-container text-on-secondary-container text-label-sm font-label-sm rounded-full">Inbound</span>
+                                    <span th:if="${transaction.stockType != null && transaction.stockType.name() == 'STOCK_OUT'}" class="px-2 py-1 bg-error-container text-on-error-container text-label-sm font-label-sm rounded-full">Outbound</span>
                                 </td>
-                                <td class="px-md py-4 text-body-md font-body-md text-error font-semibold">-50 Units</td>
-                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Pharmacist Ryan L.</td>
-                                <td class="px-md py-4 text-body-sm font-body-sm text-outline">Oct 24, 08:45 AM</td>
-                            </tr>
-                            <tr class="hover:bg-surface-container-low transition-colors">
-                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Lipitor 20mg</td>
-                                <td class="px-md py-4"><span
-                                        class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant text-label-sm font-label-sm rounded-full">Adjustment</span>
-                                </td>
-                                <td class="px-md py-4 text-body-md font-body-md text-on-surface font-semibold">-2
-                                    Units
-                                </td>
-                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Admin System</td>
-                                <td class="px-md py-4 text-body-sm font-body-sm text-outline">Oct 24, 07:30 AM</td>
-                            </tr>
-                            <tr class="hover:bg-surface-container-low transition-colors">
-                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Ventolin Inhaler</td>
-                                <td class="px-md py-4"><span
-                                        class="px-2 py-1 bg-secondary-container text-on-secondary-container text-label-sm font-label-sm rounded-full">Inbound</span>
-                                </td>
-                                <td class="px-md py-4 text-body-md font-body-md text-secondary font-semibold">+120
-                                    Units
-                                </td>
-                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Dr. Sarah Jenkins</td>
-                                <td class="px-md py-4 text-body-sm font-body-sm text-outline">Oct 23, 04:55 PM</td>
-                            </tr>
-                            <tr class="hover:bg-surface-container-low transition-colors">
-                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Sertraline 50mg</td>
-                                <td class="px-md py-4"><span
-                                        class="px-2 py-1 bg-error-container text-on-error-container text-label-sm font-label-sm rounded-full">Outbound</span>
-                                </td>
-                                <td class="px-md py-4 text-body-md font-body-md text-error font-semibold">-30 Units</td>
-                                <td class="px-md py-4 text-body-md font-body-md text-on-surface">Pharmacist Ryan L.</td>
-                                <td class="px-md py-4 text-body-sm font-body-sm text-outline">Oct 23, 03:20 PM</td>
+                                <td class="px-md py-4 text-body-md font-body-md font-semibold" th:text="${(transaction.stockType != null && transaction.stockType.name() == 'STOCK_IN' ? '+' : '-') + transaction.quantity + ' Units'}">+0 Units</td>
+                                <td class="px-md py-4 text-body-md font-body-md text-on-surface" th:text="${transaction.performedBy != null ? transaction.performedBy.fullName : 'System'}">User</td>
+                                <td class="px-md py-4 text-body-sm font-body-sm text-outline" th:text="${transaction.transactionDate}">Date</td>
                             </tr>
                             </tbody>
                         </table>
@@ -420,7 +364,7 @@
                                 <span class="text-label-md font-label-md text-secondary">Optimal</span>
                             </div>
                             <div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
-                                <div class="bg-secondary h-full w-[92%]"></div>
+                                <div class="bg-secondary h-full w-full"></div>
                             </div>
                         </div>
                         <div>

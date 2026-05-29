@@ -162,17 +162,17 @@
         </a>
     </nav>
     <div class="mt-auto space-y-1">
-        <button class="w-full mb-base bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md flex items-center justify-center gap-xs hover:opacity-90 transition-all">
+        <a href="/create-order" class="w-full mb-base bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md flex items-center justify-center gap-xs hover:opacity-90 transition-all">
             <span class="material-symbols-outlined" data-icon="add">add</span>
             New Entry
-        </button>
+        </a>
         <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
-           href="#">
+           href="/dashboard">
             <span class="material-symbols-outlined mr-3" data-icon="settings">settings</span>
             <span class="text-label-md font-label-md">Settings</span>
         </a>
         <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
-           href="#">
+           href="/index">
             <span class="material-symbols-outlined mr-3" data-icon="help">help</span>
             <span class="text-label-md font-label-md">Support</span>
         </a>
@@ -250,7 +250,7 @@
                 <div class="bg-surface-container-lowest p-md rounded-lg card-shadow h-full flex flex-col">
                     <div class="flex justify-between items-center mb-md">
                         <h3 class="text-headline-sm font-headline-sm text-on-surface">Low Stock Alerts</h3>
-                        <button class="text-primary text-label-md font-label-md hover:underline">View All</button>
+                        <a href="/inventory?stockStatus=LOW_STOCK" class="text-primary text-label-md font-label-md hover:underline">View All</a>
                     </div>
                     <div class="space-y-sm flex-1">
                         <div th:if="${#lists.isEmpty(lowStockMedicines)}" class="p-sm bg-surface-container-low rounded-lg border border-outline-variant text-body-sm text-on-surface-variant">
@@ -270,9 +270,9 @@
                                     )
                                 </div>
                             </div>
-                            <button class="px-3 py-1 bg-primary text-on-primary rounded text-label-sm font-label-sm" type="button">
+                            <a href="/create-order" class="px-3 py-1 bg-primary text-on-primary rounded text-label-sm font-label-sm inline-block">
                                 Order
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -283,15 +283,15 @@
                     <div class="p-md border-b border-outline-variant flex justify-between items-center">
                         <h3 class="text-headline-sm font-headline-sm text-on-surface">Recent Inventory Activity</h3>
                         <div class="flex gap-sm">
-                            <button class="flex items-center gap-xs px-3 py-1.5 border border-outline-variant rounded-lg text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-low">
+                            <a href="/inventory" class="flex items-center gap-xs px-3 py-1.5 border border-outline-variant rounded-lg text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-low">
                                 <span class="material-symbols-outlined text-[18px]"
                                       data-icon="filter_list">filter_list</span>
                                 Filter
-                            </button>
-                            <button class="flex items-center gap-xs px-3 py-1.5 border border-outline-variant rounded-lg text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-low">
+                            </a>
+                            <a href="/inventory/export.csv" class="flex items-center gap-xs px-3 py-1.5 border border-outline-variant rounded-lg text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-low">
                                 <span class="material-symbols-outlined text-[18px]" data-icon="download">download</span>
                                 Export
-                            </button>
+                            </a>
                         </div>
                     </div>
                     <div class="overflow-x-auto">
@@ -327,8 +327,7 @@
                         </table>
                     </div>
                     <div class="p-md mt-auto border-t border-outline-variant text-center">
-                        <button class="text-primary text-label-md font-label-md hover:underline">View Full Audit Log
-                        </button>
+                        <a href="/api/stock-transactions" class="text-primary text-label-md font-label-md hover:underline">View Full Audit Log</a>
                     </div>
                 </div>
             </section>

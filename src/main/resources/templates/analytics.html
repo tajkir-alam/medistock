@@ -113,6 +113,41 @@
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
         .chart-grid-line { stroke: #e1e3e4; stroke-width: 1; stroke-dasharray: 4; }
         .ambient-shadow { box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); }
+        .movement-card {
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            border-radius: 18px;
+            padding: 1rem;
+            background: #fff;
+        }
+        .movement-row {
+            display: grid;
+            grid-template-columns: 72px 1fr 52px;
+            gap: 0.75rem;
+            align-items: center;
+            margin-top: 0.6rem;
+        }
+        .movement-track {
+            height: 12px;
+            border-radius: 999px;
+            background: #e5e7eb;
+            overflow: hidden;
+        }
+        .movement-fill {
+            height: 100%;
+            border-radius: inherit;
+        }
+        .movement-fill.inflow { background: linear-gradient(90deg, #003f87, #1d74d9); }
+        .movement-fill.outflow { background: linear-gradient(90deg, #006c4f, #2da882); }
+        .analytics-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            background: #eef2ff;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #003f87;
+        }
     </style>
 </head>
 <body class="text-on-surface">
@@ -150,16 +185,16 @@
         </a>
     </nav>
     <div class="mt-auto pt-lg space-y-1">
-        <button class="w-full bg-primary text-white py-base rounded-lg font-label-md text-label-md mb-md flex items-center justify-center hover:opacity-90">
+        <a href="/create-order" class="w-full bg-primary text-white py-base rounded-lg font-label-md text-label-md mb-md flex items-center justify-center hover:opacity-90">
             <span class="material-symbols-outlined mr-2">add</span>New Entry
-        </button>
+        </a>
         <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg"
-           href="#">
+           href="/dashboard">
             <span class="material-symbols-outlined mr-3">settings</span>
             <span class="font-label-md text-label-md">Settings</span>
         </a>
         <a class="text-on-surface-variant hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg"
-           href="#">
+           href="/index">
             <span class="material-symbols-outlined mr-3">help</span>
             <span class="font-label-md text-label-md">Support</span>
         </a>
@@ -187,34 +222,38 @@
     <!-- Page Content -->
     <div class="p-margin-desktop space-y-md">
         <!-- Filters & Controls -->
-        <div class="flex justify-between items-center bg-white p-base rounded-lg ambient-shadow border border-outline-variant">
-            <div class="flex items-center gap-md">
-                <div class="flex flex-col">
-                    <label class="text-label-sm font-label-sm text-on-surface-variant ml-1">Analysis Period</label>
-                    <div class="flex items-center gap-base bg-surface-container-low px-sm py-xs rounded-lg cursor-pointer">
-                        <span class="material-symbols-outlined text-primary">calendar_today</span>
-                        <span class="text-body-sm font-medium">Oct 01, 2023 - Dec 31, 2023</span>
-                        <span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
-                    </div>
+        <form class="flex flex-wrap justify-between items-end gap-md bg-white p-base rounded-lg ambient-shadow border border-outline-variant" method="get" th:action="@{/analytics}">
+            <div class="flex items-center gap-md flex-wrap">
+                <div class="flex flex-col min-w-[180px]">
+                    <label class="text-label-sm font-label-sm text-on-surface-variant ml-1" for="period">Analysis Period</label>
+                    <select id="period" name="period" class="bg-surface-container-low px-sm py-xs rounded-lg border-none">
+                        <option th:each="option : ${periodOptions}"
+                                th:selected="${option == selectedPeriod}"
+                                th:text="${option}"
+                                th:value="${option}">90D</option>
+                    </select>
                 </div>
-                <div class="h-10 w-[1px] bg-outline-variant"></div>
-                <div class="flex flex-col">
+                <div class="h-10 w-[1px] bg-outline-variant hidden md:block"></div>
+                <div class="flex flex-col min-w-[200px]">
                     <label class="text-label-sm font-label-sm text-on-surface-variant ml-1">Facility</label>
-                    <div class="flex items-center gap-base bg-surface-container-low px-sm py-xs rounded-lg cursor-pointer">
-                        <span class="text-body-sm font-medium">Main Pharmacy (All Sectors)</span>
-                        <span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+                    <div class="flex items-center gap-base bg-surface-container-low px-sm py-xs rounded-lg">
+                        <span class="text-body-sm font-medium">Main Pharmacy</span>
                     </div>
                 </div>
+                <span class="analytics-pill" th:text="${periodLabel}">Last 90 days</span>
             </div>
-            <div class="flex gap-sm">
-                <button class="flex items-center gap-base bg-white border border-secondary text-secondary px-sm py-xs rounded-lg font-label-md text-label-md hover:bg-secondary-container transition-colors">
+            <div class="flex gap-sm flex-wrap">
+                <button type="submit" class="flex items-center gap-base bg-secondary text-white px-sm py-xs rounded-lg font-label-md text-label-md hover:opacity-90">
+                    <span class="material-symbols-outlined">refresh</span>Refresh
+                </button>
+                <a th:href="@{/analytics/export.csv(period=${selectedPeriod})}" class="flex items-center gap-base bg-white border border-secondary text-secondary px-sm py-xs rounded-lg font-label-md text-label-md hover:bg-secondary-container transition-colors">
                     <span class="material-symbols-outlined">file_download</span>Export CSV
-                </button>
-                <button class="flex items-center gap-base bg-secondary text-white px-sm py-xs rounded-lg font-label-md text-label-md hover:opacity-90">
-                    <span class="material-symbols-outlined">picture_as_pdf</span>PDF Report
-                </button>
+                </a>
+                <a th:href="@{/api/analytics/summary(period=${selectedPeriod})}" class="flex items-center gap-base bg-primary text-white px-sm py-xs rounded-lg font-label-md text-label-md hover:opacity-90">
+                    <span class="material-symbols-outlined">insights</span>Summary JSON
+                </a>
             </div>
-        </div>
+        </form>
         <!-- Bento Grid - First Row -->
         <div class="grid grid-cols-12 gap-gutter">
             <!-- Main Area Chart -->
@@ -238,38 +277,31 @@
                         </div>
                     </div>
                 </div>
-                <!-- SVG Chart Mockup -->
-                <div class="h-64 w-full relative">
-                    <svg class="w-full h-full" viewbox="0 0 800 240">
-                        <!-- Grid -->
-                        <line class="chart-grid-line" x1="0" x2="800" y1="40" y2="40"></line>
-                        <line class="chart-grid-line" x1="0" x2="800" y1="90" y2="90"></line>
-                        <line class="chart-grid-line" x1="0" x2="800" y1="140" y2="140"></line>
-                        <line class="chart-grid-line" x1="0" x2="800" y1="190" y2="190"></line>
-                        <!-- Inflow Path (Blue) -->
-                        <path d="M0,180 Q100,140 200,160 T400,100 T600,120 T800,40" fill="none" stroke="#003f87"
-                              stroke-width="3"></path>
-                        <path d="M0,180 Q100,140 200,160 T400,100 T600,120 T800,40 V240 H0 Z" fill="url(#blue-gradient)"
-                              opacity="0.1"></path>
-                        <!-- Outflow Path (Teal) -->
-                        <path d="M0,220 Q100,200 200,190 T400,170 T600,150 T800,140" fill="none" stroke="#006c4f"
-                              stroke-width="3"></path>
-                        <path d="M0,220 Q100,200 200,190 T400,170 T600,150 T800,140 V240 H0 Z"
-                              fill="url(#teal-gradient)" opacity="0.1"></path>
-                        <defs>
-                            <lineargradient id="blue-gradient" x1="0" x2="0" y1="0" y2="1">
-                                <stop offset="0%" stop-color="#003f87"></stop>
-                                <stop offset="100%" stop-color="#003f87" stop-opacity="0"></stop>
-                            </lineargradient>
-                            <lineargradient id="teal-gradient" x1="0" x2="0" y1="0" y2="1">
-                                <stop offset="0%" stop-color="#006c4f"></stop>
-                                <stop offset="100%" stop-color="#006c4f" stop-opacity="0"></stop>
-                            </lineargradient>
-                        </defs>
-                    </svg>
-                    <!-- Labels -->
-                    <div class="flex justify-between mt-sm text-label-sm font-label-sm text-on-surface-variant">
-                        <span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span>
+                <div th:if="${#lists.isEmpty(stockMovement)}" class="h-64 flex items-center justify-center text-body-sm text-on-surface-variant">
+                    No stock transactions were found for the selected period.
+                </div>
+                <div th:if="${!#lists.isEmpty(stockMovement)}" class="h-64 overflow-y-auto pr-1 space-y-sm">
+                    <div class="movement-card" th:each="item : ${stockMovement}">
+                        <div class="flex justify-between items-center mb-xs">
+                            <strong class="text-body-md" th:text="${item.month}">2026-05</strong>
+                            <span class="text-label-sm text-on-surface-variant" th:text="${'Inflow ' + item.inflow + ' | Outflow ' + item.outflow}">Inflow 0 | Outflow 0</span>
+                        </div>
+                        <div class="movement-row">
+                            <span class="text-label-sm font-semibold text-on-surface-variant">Inflow</span>
+                            <div class="movement-track">
+                                <div class="movement-fill inflow"
+                                     th:style="${'width:' + ((stockMovementMax == 0 ? 0 : (item.inflow * 100.0 / stockMovementMax))) + '%'}"></div>
+                            </div>
+                            <span class="text-label-sm font-semibold" th:text="${item.inflow}">0</span>
+                        </div>
+                        <div class="movement-row">
+                            <span class="text-label-sm font-semibold text-on-surface-variant">Outflow</span>
+                            <div class="movement-track">
+                                <div class="movement-fill outflow"
+                                     th:style="${'width:' + ((stockMovementMax == 0 ? 0 : (item.outflow * 100.0 / stockMovementMax))) + '%'}"></div>
+                            </div>
+                            <span class="text-label-sm font-semibold" th:text="${item.outflow}">0</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -278,29 +310,26 @@
                 <div class="absolute left-0 top-0 w-1 h-full bg-secondary"></div>
                 <h3 class="text-headline-sm font-headline-sm text-on-surface mb-xs">Medicine Categories</h3>
                 <p class="text-body-sm text-on-surface-variant mb-md">Current inventory distribution</p>
-                <div class="flex flex-col items-center">
-                    <div class="relative w-48 h-48">
-                        <svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
-                            <circle cx="18" cy="18" fill="transparent" r="15.915" stroke="#edeeef"
-                                    stroke-width="4"></circle>
-                            <circle cx="18" cy="18" fill="transparent" r="15.915" stroke="#003f87"
-                                stroke-dasharray="45 55" stroke-dashoffset="0" stroke-width="4"></circle>
-                        </svg>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <div class="flex flex-col gap-md">
+                    <div class="flex items-center justify-between bg-surface-container-low rounded-lg p-base">
+                        <div>
+                            <p class="text-label-sm text-on-surface-variant">Total SKUs</p>
                             <span class="text-headline-md font-bold text-on-surface" th:text="${medicineCount}">0</span>
-                            <span class="text-label-sm text-on-surface-variant">Total SKUs</span>
                         </div>
+                        <span class="analytics-pill">Live from DB</span>
                     </div>
-                    <div class="mt-md w-full space-y-xs">
+                    <div class="space-y-xs">
                         <div th:if="${#lists.isEmpty(categoryDistribution)}" class="text-body-sm text-on-surface-variant text-center p-xs">
                             No category data available.
                         </div>
-                        <div th:each="entry : ${categoryDistribution}" class="flex justify-between items-center p-xs">
-                            <div class="flex items-center gap-base">
-                                <div class="w-2 h-2 rounded-full bg-primary"></div>
-                                <span class="text-body-sm" th:text="${entry.category}">Category</span>
+                        <div th:each="entry : ${categoryDistribution}" class="space-y-xs p-xs rounded-lg bg-surface-container-lowest border border-outline-variant">
+                            <div class="flex justify-between items-center">
+                                <span class="text-body-sm font-medium" th:text="${entry.category}">Category</span>
+                                <span class="text-label-md font-semibold" th:text="${entry.percentage + '%'}">0%</span>
                             </div>
-                            <span class="text-label-md font-semibold" th:text="${entry.percentage + '%'}">0%</span>
+                            <div class="movement-track">
+                                <div class="movement-fill inflow" th:style="${'width:' + entry.percentage + '%'}"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -311,11 +340,11 @@
             <div class="p-md border-b border-outline-variant flex justify-between items-center">
                 <div>
                     <h3 class="text-headline-sm font-headline-sm text-on-surface">Top Moving Items</h3>
-                    <p class="text-body-sm text-on-surface-variant">Fastest inventory turnover in the last 30 days</p>
+                    <p class="text-body-sm text-on-surface-variant" th:text="${'Fastest inventory turnover in ' + periodLabel}">Fastest inventory turnover in the selected period</p>
                 </div>
-                <button class="text-primary font-label-md text-label-md flex items-center hover:underline">
+                <a class="text-primary font-label-md text-label-md flex items-center hover:underline" href="/inventory">
                     View Full Inventory <span class="material-symbols-outlined ml-1">arrow_forward</span>
-                </button>
+                </a>
             </div>
             <table class="w-full text-left">
                 <thead class="bg-surface-container-low">
@@ -369,7 +398,7 @@
                 <p class="text-headline-md font-bold text-primary" th:text="${summary.totalInflowValue}">$0.00</p>
             </div>
             <div class="bg-white p-base rounded-lg ambient-shadow border-l-4 border-secondary">
-                <p class="text-label-sm font-label-sm text-on-surface-variant">Average Turnover</p>
+                <p class="text-label-sm font-label-sm text-on-surface-variant">Average Days to Expiry</p>
                 <p class="text-headline-md font-bold text-secondary" th:text="${summary.averageTurnoverDays}">0 Days</p>
             </div>
             <div class="bg-white p-base rounded-lg ambient-shadow border-l-4 border-primary-fixed-dim">

@@ -127,22 +127,22 @@
     </div>
     <nav class="flex flex-col gap-y-1 grow">
         <a class="text-on-surface-variant dark:text-on-tertiary-container hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
-           href="#">
+           href="/dashboard">
             <span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
             <span class="text-label-md font-label-md">Dashboard</span>
         </a>
         <a class="text-on-surface-variant dark:text-on-tertiary-container hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
-           href="#">
+              href="/inventory">
             <span class="material-symbols-outlined mr-3" data-icon="inventory_2">inventory_2</span>
             <span class="text-label-md font-label-md">Inventory</span>
         </a>
         <a class="bg-primary-container text-on-primary-container font-semibold rounded-lg flex items-center px-4 py-3 scale-95 transition-transform"
-           href="#">
+              href="/orders">
             <span class="material-symbols-outlined mr-3" data-icon="receipt_long">receipt_long</span>
             <span class="text-label-md font-label-md">Orders</span>
         </a>
         <a class="text-on-surface-variant dark:text-on-tertiary-container hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
-           href="#">
+              href="/suppliers">
             <span class="material-symbols-outlined mr-3" data-icon="local_shipping">local_shipping</span>
             <span class="text-label-md font-label-md">Suppliers</span>
         </a>
@@ -154,12 +154,12 @@
     </nav>
     <div class="border-t border-outline-variant pt-4 mt-auto">
         <a class="text-on-surface-variant dark:text-on-tertiary-container hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
-           href="#">
+           href="/dashboard">
             <span class="material-symbols-outlined mr-3" data-icon="settings">settings</span>
             <span class="text-label-md font-label-md">Settings</span>
         </a>
         <a class="text-on-surface-variant dark:text-on-tertiary-container hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
-           href="#">
+              href="/index">
             <span class="material-symbols-outlined mr-3" data-icon="help">help</span>
             <span class="text-label-md font-label-md">Support</span>
         </a>
@@ -217,10 +217,10 @@
                         <div class="flex flex-col gap-1">
                             <label class="text-label-md font-label-md text-on-surface-variant">Priority Level</label>
                             <div class="flex gap-2">
-                                <button class="flex-1 py-2 border border-outline rounded-lg text-label-md font-label-md hover:bg-surface-container-high transition-all">
+                                <button type="button" class="flex-1 py-2 border border-outline rounded-lg text-label-md font-label-md hover:bg-surface-container-high transition-all">
                                     Standard
                                 </button>
-                                <button class="flex-1 py-2 border-2 border-primary bg-primary-container text-on-primary-container rounded-lg text-label-md font-label-md">
+                                <button type="button" class="flex-1 py-2 border-2 border-primary bg-primary-container text-on-primary-container rounded-lg text-label-md font-label-md">
                                     Urgent
                                 </button>
                             </div>
@@ -405,15 +405,17 @@
                         </div>
                     </div>
                     <div class="flex flex-col gap-3">
-                        <button class="w-full bg-primary text-on-primary py-3 rounded-lg font-label-md text-label-md shadow-md hover:bg-primary-container transition-all active:scale-95" type="submit">
+                        <button class="w-full bg-primary text-on-primary py-3 rounded-lg font-label-md text-label-md shadow-md hover:bg-primary-container transition-all active:scale-95"
+                                name="actionType" value="SUBMIT" type="submit">
                             Submit Purchase Order
                         </button>
-                        <button class="w-full border border-primary text-primary py-3 rounded-lg font-label-md text-label-md hover:bg-primary-container/10 transition-all" type="button">
+                        <button class="w-full border border-primary text-primary py-3 rounded-lg font-label-md text-label-md hover:bg-primary-container/10 transition-all"
+                                name="actionType" value="DRAFT" type="submit">
                             Save as Draft
                         </button>
-                        <button class="w-full text-error py-2 font-label-md text-label-md hover:bg-error-container/20 rounded-lg transition-all" type="button">
+                        <a href="/orders" class="w-full text-error py-2 font-label-md text-label-md hover:bg-error-container/20 rounded-lg transition-all text-center">
                             Discard Order
-                        </button>
+                        </a>
                     </div>
                 </section>
                 <!-- Preview Card -->

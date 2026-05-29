@@ -155,12 +155,12 @@
     </button>
     <div class="flex flex-col gap-y-2 border-t border-outline-variant pt-4">
         <a class="text-on-surface-variant dark:text-on-tertiary-container hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
-           href="#">
+              href="/dashboard">
             <span class="material-symbols-outlined mr-3">settings</span>
             <span class="font-label-md text-label-md">Settings</span>
         </a>
         <a class="text-on-surface-variant dark:text-on-tertiary-container hover:bg-surface-container-high flex items-center px-4 py-3 rounded-lg transition-all duration-150"
-           href="#">
+              href="/index">
             <span class="material-symbols-outlined mr-3">help</span>
             <span class="font-label-md text-label-md">Support</span>
         </a>
@@ -239,17 +239,29 @@
         </div>
         <!-- Data Table Section -->
         <div class="bg-surface-container-lowest rounded-lg shadow-[0px_4px_12px_rgba(0,0,0,0.05)] border border-outline-variant overflow-hidden">
-            <div class="p-4 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+            <form method="get" th:action="@{/orders}" class="p-4 border-b border-outline-variant bg-surface-container-low flex justify-between items-center gap-3">
                 <h3 class="text-label-md font-label-md text-on-surface">Order History</h3>
-                <div class="flex gap-2">
-                    <button class="bg-white border border-outline-variant px-3 py-1.5 rounded-lg text-label-sm flex items-center gap-1 hover:bg-surface transition-colors">
+                <div class="flex gap-2 items-center">
+                    <input type="hidden" name="size" th:value="${pageSize}"/>
+                    <input name="q" th:value="${q}" placeholder="Search by order id or supplier"
+                           class="bg-white border border-outline-variant px-3 py-1.5 rounded-lg text-label-sm focus:ring-2 focus:ring-primary" type="text"/>
+                    <select name="status" class="bg-white border border-outline-variant px-3 py-1.5 rounded-lg text-label-sm focus:ring-2 focus:ring-primary">
+                        <option value="ALL" th:selected="${selectedOrderStatus == 'ALL'}">All Statuses</option>
+                        <option th:each="orderStatus : ${orderStatuses}"
+                                th:value="${orderStatus.name()}"
+                                th:text="${orderStatus.name()}"
+                                th:selected="${selectedOrderStatus == orderStatus.name()}">
+                            PENDING
+                        </option>
+                    </select>
+                    <button type="submit" class="bg-white border border-outline-variant px-3 py-1.5 rounded-lg text-label-sm flex items-center gap-1 hover:bg-surface transition-colors">
                         <span class="material-symbols-outlined text-sm">filter_list</span> Filter
                     </button>
-                    <button class="bg-white border border-outline-variant px-3 py-1.5 rounded-lg text-label-sm flex items-center gap-1 hover:bg-surface transition-colors">
+                    <a th:href="@{/orders/export.csv(q=${q}, status=${selectedOrderStatus})}" class="bg-white border border-outline-variant px-3 py-1.5 rounded-lg text-label-sm flex items-center gap-1 hover:bg-surface transition-colors">
                         <span class="material-symbols-outlined text-sm">download</span> Export
-                    </button>
+                    </a>
                 </div>
-            </div>
+            </form>
             <table class="w-full text-left border-collapse">
                 <thead class="bg-surface-container-low border-b border-outline-variant">
                 <tr>
@@ -284,8 +296,10 @@
                         </span>
                     </td>
                     <td class="p-4 text-right space-x-2">
-                        <button class="text-primary hover:underline text-label-sm" type="button">View Details</button>
-                        <button class="text-on-surface-variant hover:text-primary transition-colors" type="button"><span class="material-symbols-outlined text-lg align-middle">download</span></button>
+                        <a th:href="@{/api/orders/{id}(id=${order.id})}" class="text-primary hover:underline text-label-sm">View Details</a>
+                        <form th:action="@{/orders/{id}/delete(id=${order.id})}" method="post" class="inline">
+                            <button class="text-error hover:underline text-label-sm" type="submit">Delete</button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>
@@ -294,22 +308,24 @@
             <div class="p-4 bg-surface-container-low border-t border-outline-variant flex justify-between items-center">
                 <span class="text-body-sm text-on-surface-variant" th:text="${'Showing ' + orders.size() + ' orders'}">Showing 0 orders</span>
                 <div class="flex gap-2">
-                    <button class="p-2 border border-outline-variant rounded-lg hover:bg-white transition-colors disabled:opacity-50"
-                            disabled="">
+                    <a th:if="${currentPage > 1}"
+                       th:href="@{/orders(page=${currentPage - 1}, size=${pageSize}, q=${q}, status=${selectedOrderStatus})}"
+                       class="p-2 border border-outline-variant rounded-lg hover:bg-white transition-colors">
                         <span class="material-symbols-outlined">chevron_left</span>
-                    </button>
-                    <button class="px-4 py-2 border border-primary bg-primary text-on-primary rounded-lg text-label-sm">
-                        1
-                    </button>
-                    <button class="px-4 py-2 border border-outline-variant rounded-lg text-label-sm hover:bg-white transition-colors">
-                        2
-                    </button>
-                    <button class="px-4 py-2 border border-outline-variant rounded-lg text-label-sm hover:bg-white transition-colors">
-                        3
-                    </button>
-                    <button class="p-2 border border-outline-variant rounded-lg hover:bg-white transition-colors">
+                    </a>
+                    <span th:if="${currentPage <= 1}" class="p-2 border border-outline-variant rounded-lg opacity-40">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </span>
+                    <span class="px-4 py-2 border border-primary bg-primary text-on-primary rounded-lg text-label-sm" th:text="${currentPage}">1</span>
+                    <span class="px-4 py-2 border border-outline-variant rounded-lg text-label-sm" th:text="${'of ' + totalPages}">of 1</span>
+                    <a th:if="${currentPage < totalPages}"
+                       th:href="@{/orders(page=${currentPage + 1}, size=${pageSize}, q=${q}, status=${selectedOrderStatus})}"
+                       class="p-2 border border-outline-variant rounded-lg hover:bg-white transition-colors">
                         <span class="material-symbols-outlined">chevron_right</span>
-                    </button>
+                    </a>
+                    <span th:if="${currentPage >= totalPages}" class="p-2 border border-outline-variant rounded-lg opacity-40">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </span>
                 </div>
             </div>
         </div>

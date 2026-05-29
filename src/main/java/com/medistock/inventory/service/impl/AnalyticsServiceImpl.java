@@ -35,6 +35,11 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
     @Override
     public AnalyticsSummaryDTO getSummary() {
+        return getSummary(null);
+    }
+
+    @Override
+    public AnalyticsSummaryDTO getSummary(LocalDate fromDate) {
         List<Medicine> medicines = medicineRepository.findAll();
         BigDecimal totalInflowValue = medicines.stream()
                 .map(medicine -> {
@@ -50,7 +55,10 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 .average()
                 .orElse(0.0);
 
-        List<MedicineOrder> orders = medicineOrderRepository.findAll();
+            List<MedicineOrder> orders = medicineOrderRepository.findAll().stream()
+                .filter(order -> order.getOrderDate() != null)
+                .filter(order -> fromDate == null || !order.getOrderDate().toLocalDate().isBefore(fromDate))
+                .toList();
         long completedOrders = orders.stream()
                 .filter(order -> order.getStatus() == OrderStatus.COMPLETED)
                 .count();
@@ -72,7 +80,15 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
     @Override
     public List<StockMovementDTO> getMonthlyMovement() {
-        List<StockTransaction> transactions = stockTransactionRepository.findAll();
+        return getMonthlyMovement(null);
+    }
+
+    @Override
+    public List<StockMovementDTO> getMonthlyMovement(LocalDate fromDate) {
+        List<StockTransaction> transactions = stockTransactionRepository.findAll().stream()
+                .filter(transaction -> transaction.getTransactionDate() != null)
+                .filter(transaction -> fromDate == null || !transaction.getTransactionDate().toLocalDate().isBefore(fromDate))
+                .toList();
         Map<YearMonth, int[]> monthlyTotals = new java.util.TreeMap<>();
 
         for (StockTransaction transaction : transactions) {
@@ -119,15 +135,29 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
     @Override
     public List<TopMedicineDTO> getTopMovingMedicines() {
+        return getTopMovingMedicines(null);
+        }
+
+        @Override
+        public List<TopMedicineDTO> getTopMovingMedicines(LocalDate fromDate) {
+        Map<Long, Integer> movementTotals = stockTransactionRepository.findAll().stream()
+            .filter(transaction -> transaction.getMedicine() != null)
+            .filter(transaction -> transaction.getTransactionDate() != null)
+            .filter(transaction -> fromDate == null || !transaction.getTransactionDate().toLocalDate().isBefore(fromDate))
+            .collect(Collectors.groupingBy(transaction -> transaction.getMedicine().getId(),
+                Collectors.summingInt(transaction -> transaction.getQuantity() == null ? 0 : transaction.getQuantity())));
+
+        int maxMovement = movementTotals.values().stream().mapToInt(Integer::intValue).max().orElse(0);
+
         return medicineRepository.findAll().stream()
-                .sorted(Comparator.comparing(Medicine::getQuantity, Comparator.nullsLast(Comparator.naturalOrder())).reversed())
+            .sorted(Comparator.comparing(medicine -> movementTotals.getOrDefault(medicine.getId(), 0), Comparator.reverseOrder()))
                 .limit(5)
                 .map(medicine -> TopMedicineDTO.builder()
                         .medicineName(medicine.getMedicineName())
                         .sku(medicine.getSku())
                         .category(medicine.getCategory() == null ? null : medicine.getCategory().name())
                         .remainingStock(medicine.getQuantity())
-                        .turnoverRate(medicine.getQuantity() == null ? 0.0 : Math.min(100.0, medicine.getQuantity()))
+                .turnoverRate(maxMovement == 0 ? 0.0 : (movementTotals.getOrDefault(medicine.getId(), 0) * 100.0) / maxMovement)
                         .stockStatus(resolveStockStatus(medicine))
                         .build())
                 .collect(Collectors.toList());
